@@ -1,0 +1,80 @@
+= FBAHA Component
+:doctitle: Fritz!Box-AHA interface
+:shortname: fbaha
+:artifactid: camel-fbaha
+:description: Interface for the Fritz!Box AHA api based on PowerStat's FBMiniApi.
+:since: 3.18
+:supportlevel: Preview
+:component-header: Both producer and poll-consumer are supported
+:powerstat:
+//Manually maintained attributes
+
+*Since Camel {since}*
+
+*{component-header}*
+
+The FBAHA component is used to communicate with your Fritz!Box over the AHA interface. This endpoint supports producer and poll-consumer.
+
+[TIP]
+====
+*Important*
+
+Please note that I am not related to AVM in any way and that AVM will not support this code in any way!
+====
+
+Maven users will need to add the following dependency to their `pom.xml` for this component:
+
+[source,xml]
+------------------------------------------------------------
+<dependency>
+  <groupId>de.powerstat.camel.component</groupId>
+  <artifactId>camel-fbaha</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</dependency>
+------------------------------------------------------------
+
+== URI format
+
+----
+fbaha:[[username][:password]@][hostname[:port]]/switchcmd?[options]
+----
+
+Where `username` is the username of the Fritz!Box, `password` is the Fritz!Box password, `hostname` is the Fritz!Box hostname (default: fritz.box), port ist the FRitz!Box port (default: 443) and switchcmd is the aha command to execute. `options` depend on the switchcmd.
+
+// component-configure options: START
+// component-configure options: END
+
+// component options: START
+// component options: END
+
+// endpoint options: START
+include::partial$component-endpoint-options.adoc[]
+// endpoint options: END
+
+// component headers: START
+// component headers: END
+
+=== Consumer Example
+
+To set up a route:
+
+[source,java]
+----
+from("fbaha:/getswitchlist").to("stream:out");
+----
+
+The above route will generate an event and then invoke the
+`getswitchlist` method on the Fritz!Box with the default name `fritz.box` on it's default port 443 without a username and password (if possible). The result (a comma separated list of AIN's) will be printed out.
+
+=== Producer Example
+
+[source,java]
+----
+from("file:test?startingDirectoryMustExist=true")
+  .to("fbaha:/getswitchlist")
+  .to("stream:out");
+----
+
+The above route will wait for a file apearing in the directory `test` and then invoke the
+`getswitchlist` method on the Fritz!Box with the default name `fritz.box` on it's default port 443 without a username and password (if possible). The result (a comma separated list of AIN's) will be printed out.
+

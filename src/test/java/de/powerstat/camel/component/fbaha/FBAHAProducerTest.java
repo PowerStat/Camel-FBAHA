@@ -1,0 +1,76 @@
+/*
+ * Copyright (C) 2022 Dipl.-Inform. Kai Hofmann. All rigths reserved!
+ */
+package de.powerstat.camel.component.fbaha;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.camel.Exchange;
+import org.apache.camel.support.DefaultExchange;
+import org.apache.camel.test.junit5.CamelTestSupport;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+
+/**
+ * FBAHA producer test.
+ */
+public class FBAHAProducerTest extends CamelTestSupport
+ {
+  /**
+   * Constructor test.
+   *
+   * @throws Exception Exception
+   */
+  @Test
+  public void constructor1() throws Exception
+   {
+    try (FBAHAComponent component = new FBAHAComponent(this.context))
+     {
+      final Map<String, Object> parameters = new HashMap<>();
+      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$
+       {
+        try (FBAHAProducer test = new FBAHAProducer(endpoint))
+         {
+          assertNotNull(test);
+         }
+       }
+     }
+   }
+
+
+  /**
+   * Process test.
+   *
+   * @throws IOException IO eception
+   * @throws Exception Exception
+   */
+  @Test
+  @Disabled
+  public void process1() throws Exception
+   {
+    try (FBAHAComponent component = new FBAHAComponent(this.context))
+     {
+      final Map<String, Object> parameters = new HashMap<>();
+      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$
+       {
+        endpoint.doStart(); // TODO mock AHASession
+        try (FBAHAProducer test = new FBAHAProducer(endpoint))
+         {
+          final Exchange exchange = new DefaultExchange(this.context);
+          test.process(exchange);
+          final String body = (String)exchange.getMessage().getBody();
+          assertEquals("", body); //$NON-NLS-1$
+         }
+        endpoint.doStop();
+       }
+     }
+   }
+
+ }
