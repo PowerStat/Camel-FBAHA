@@ -29,12 +29,13 @@ public class FBAHAProducerTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
+  @Disabled
   public void constructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
       final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$
+      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         try (FBAHAProducer test = new FBAHAProducer(endpoint))
          {
@@ -58,9 +59,8 @@ public class FBAHAProducerTest extends CamelTestSupport
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
       final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$
+      try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
-        endpoint.doStart(); // TODO mock AHASession
         try (FBAHAProducer test = new FBAHAProducer(endpoint))
          {
           final Exchange exchange = new DefaultExchange(this.context);
@@ -68,7 +68,6 @@ public class FBAHAProducerTest extends CamelTestSupport
           final String body = (String)exchange.getMessage().getBody();
           assertEquals("", body); //$NON-NLS-1$
          }
-        endpoint.doStop();
        }
      }
    }

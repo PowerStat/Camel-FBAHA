@@ -6,12 +6,14 @@ package de.powerstat.camel.component.fbaha;
 
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.util.Map;
 
 import org.apache.camel.spi.Metadata;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 
+import de.powerstat.fb.mini.AHASessionMini;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
@@ -23,6 +25,11 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @UriParams
 public class FBAHAConfiguration
  {
+  /**
+   * FB AHA api proxy.
+   */
+  private AHASessionMini apiProxy;
+
   /**
    * FB hostname.
    */
@@ -54,7 +61,7 @@ public class FBAHAConfiguration
   /**
    * Switch command.
    */
-  @UriPath(description = "Switch command", enums = "getswitchlist, setswitchon, setswitchoff, setswitchtoggle, getswitchstate, getswitchpresent, getswitchpower, getswitchenergy, getswitchname, getdevicelistinfos, gettemperature, gethkrtsoll, gethkrkomfort, gethkrabsenk, sethkrtsoll, getbasicdevicestats, gettemplatelistinfos, applytemplate, setsimpleonoff, setlevel, setlevelpercentage, setcolor, setcolortemperature, getcolordefaults, sethkrboost, sethkrwindowopen, setblind, setname, startulesubscription, getsubscriptionstate, getdeviceinfos")
+  @UriPath(description = "Switch command", enums = "setswitchon, setswitchoff, setswitchtoggle, sethkrtsoll, applytemplate, setsimpleonoff, setlevel, setlevelpercentage, setcolor, setcolortemperature, sethkrboost, sethkrwindowopen, setblind, setname, startulesubscription, getswitchlist, getswitchstate, getswitchpresent, getswitchpower, getswitchenergy, getswitchname, getdevicelistinfos, gettemperature, gethkrtsoll, gethkrkomfort, gethkrabsenk, getbasicdevicestats, gettemplatelistinfos, getcolordefaults, getsubscriptionstate, getdeviceinfo")
   @Metadata(required = true)
   private String switchcmd; // TODO Change to enum type
 
@@ -142,6 +149,93 @@ public class FBAHAConfiguration
   public FBAHAConfiguration()
    {
     super();
+   }
+
+
+  /**
+   * Initialize parameters from uri.
+   *
+   * @param parameters URI parameters
+   */
+  public void initParameters(final Map<String, Object> parameters)
+   {
+    Object obj = parameters.remove("ain"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.ain = (String)obj;
+     }
+    obj = parameters.remove("name"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.name = (String)obj;
+     }
+    obj = parameters.remove("target"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.target = (String)obj;
+     }
+    obj = parameters.remove("temperature"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.temperature = Long.parseLong((String)obj);
+     }
+    obj = parameters.remove("endtimestamp"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.endtimestamp = Long.parseLong((String)obj);
+     }
+    obj = parameters.remove("onoff"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.onoff = Integer.parseInt((String)obj);
+     }
+    obj = parameters.remove("level"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.level = Integer.parseInt((String)obj);
+     }
+    obj = parameters.remove("hue"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.hue = Integer.parseInt((String)obj);
+     }
+    obj = parameters.remove("saturation"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.saturation = Integer.parseInt((String)obj);
+     }
+    obj = parameters.remove("duration"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.duration = Integer.parseInt((String)obj);
+     }
+    obj = parameters.remove("onlyOnChange"); //$NON-NLS-1$
+    if ((obj != null) && (obj instanceof String))
+     {
+      this.onlyOnChange = Boolean.parseBoolean((String)obj);
+     }
+   }
+
+
+  /**
+   * Get api proxy.
+   *
+   * @return API proxy
+   */
+  public AHASessionMini getApiProxy()
+   {
+    return this.apiProxy;
+   }
+
+
+  /**
+   * Set api proxy.
+   *
+   * @param apiProxy API proxy
+   */
+  public void setApiProxy(final AHASessionMini apiProxy)
+   {
+    this.apiProxy = apiProxy;
    }
 
 

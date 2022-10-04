@@ -38,14 +38,8 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
    * FB AHA configuration.
    */
   @UriParam
-  @Metadata(required = false)
+  @Metadata(required = true)
   private FBAHAConfiguration configuration;
-
-
-  /**
-   * FB AHA api proxy.
-   */
-  private AHASessionMini apiProxy;
 
 
   /**
@@ -92,37 +86,6 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
    {
     super(uri, component);
     this.configuration = configuration;
-    this.apiProxy = AHASessionMini.newInstance(this.configuration.getHostname(), this.configuration.getPort(), this.configuration.getUsername(), this.configuration.getPassword());
-   }
-
-
-  /**
-   * Do start endpoint.
-   */
-  @Override
-  protected void doStart() throws Exception
-   {
-    // TODO synchronize
-    super.doStart();
-    if (!this.apiProxy.logon())
-     {
-      throw new IllegalStateException("Could not login to: " + this.configuration.getHostname()); //$NON-NLS-1$
-     }
-   }
-
-
-  /**
-   * Do stop endpoint.
-   */
-  @Override
-  protected void doStop() throws Exception
-   {
-    // TODO synchronize
-    if (!this.apiProxy.logoff())
-     {
-      throw new IllegalStateException("Could not logoff from: " + this.configuration.getHostname()); //$NON-NLS-1$
-     }
-    super.doStop();
    }
 
 
@@ -192,17 +155,16 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   public void setConfiguration(final FBAHAConfiguration configuration) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, ParserConfigurationException, IOException, SAXException, InvalidKeyException
    {
     // TODO synchronize
-    this.configuration = configuration;
     boolean afterDoStart = false;
-    if (this.apiProxy.hasValidSession())
+    if (this.configuration.getApiProxy().hasValidSession())
      {
-      this.apiProxy.logoff();
+      this.configuration.getApiProxy().logoff();
       afterDoStart = true;
      }
-    this.apiProxy = AHASessionMini.newInstance(this.configuration.getHostname(), this.configuration.getPort(), this.configuration.getUsername(), this.configuration.getPassword());
+    this.configuration = configuration;
     if (afterDoStart)
      {
-      this.apiProxy.logon();
+      this.configuration.getApiProxy().logon();
      }
    }
 
@@ -216,8 +178,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   public AHASessionMini getApiProxy()
    {
     // TODO synchronize
-    return this.apiProxy;
+    return this.configuration.getApiProxy();
    }
-
 
  }
