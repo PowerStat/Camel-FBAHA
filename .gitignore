@@ -1,2 +1,4 @@
 src/generated/
 target/
+cov-int/
+cov-int.zip
