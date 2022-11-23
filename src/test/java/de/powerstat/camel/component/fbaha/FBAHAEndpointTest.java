@@ -31,7 +31,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void constructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -39,7 +39,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
       final Map<String, Object> parameters = new HashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
-        assertNotNull(test);
+        assertNotNull(test, "test == null"); //$NON-NLS-1$
        }
      }
    }
@@ -51,7 +51,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void configuration1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -67,7 +67,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
         configuration2.setSwitchcmd("getswitchlist"); //$NON-NLS-1$
         test.setConfiguration(configuration2);
         final FBAHAConfiguration conf = test.getConfiguration();
-        assertEquals(configuration2, conf);
+        assertEquals(configuration2, conf, "conf != configuration2"); //$NON-NLS-1$
        }
      }
    }
@@ -79,7 +79,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void getApiProxy1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -88,7 +88,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         final AHASessionMini api = test.getApiProxy();
-        assertNotNull(api);
+        assertNotNull(api, "api is null"); //$NON-NLS-1$
        }
      }
    }
@@ -101,7 +101,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void getApiProxy2() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -110,7 +110,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         final AHASessionMini api = test.getApiProxy();
-        assertNotNull(api);
+        assertNotNull(api, "api is null"); //$NON-NLS-1$
        }
      }
    }
@@ -123,7 +123,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void createProducer1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -133,7 +133,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
        {
         try (Producer producer = test.createProducer())
          {
-          assertNotNull(producer);
+          assertNotNull(producer, "producer is null"); //$NON-NLS-1$
          }
        }
      }
@@ -147,7 +147,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void createConsumer1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -157,7 +157,7 @@ public class FBAHAEndpointTest extends CamelTestSupport
        {
         try (Consumer consumerLocal = test.createConsumer(null))
          {
-          assertNotNull(consumerLocal);
+          assertNotNull(consumerLocal, "consumerLocal is null"); //$NON-NLS-1$
          }
        }
      }

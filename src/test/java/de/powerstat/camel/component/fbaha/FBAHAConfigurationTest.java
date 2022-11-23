@@ -27,7 +27,7 @@ public class FBAHAConfigurationTest
   public void constructor1()
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
-    assertNotNull(test);
+    assertNotNull(test, "test is null"); //$NON-NLS-1$
    }
 
 
@@ -39,7 +39,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setHostname("test"); //$NON-NLS-1$
-    assertEquals("test", test.getHostname()); //$NON-NLS-1$
+    assertEquals("test", test.getHostname(), "hostname != 'test'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -51,7 +51,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setPort(443);
-    assertEquals(443, test.getPort());
+    assertEquals(443, test.getPort(), "port != 443"); //$NON-NLS-1$
    }
 
 
@@ -63,7 +63,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setUsername("test"); //$NON-NLS-1$
-    assertEquals("test", test.getUsername()); //$NON-NLS-1$
+    assertEquals("test", test.getUsername(), "username != 'test'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -75,7 +75,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setPassword("topSecret"); //$NON-NLS-1$
-    assertEquals("topSecret", test.getPassword()); //$NON-NLS-1$
+    assertEquals("topSecret", test.getPassword(), "password != 'topSecret'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -87,7 +87,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setAin("123456789012"); //$NON-NLS-1$
-    assertEquals("123456789012", test.getAin()); //$NON-NLS-1$
+    assertEquals("123456789012", test.getAin(), "in != '123456789012'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -99,7 +99,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setTemperature(200);
-    assertEquals(200, test.getTemperature());
+    assertEquals(200, test.getTemperature(), "temperature != 200"); //$NON-NLS-1$
    }
 
 
@@ -111,7 +111,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setOnoff(2);
-    assertEquals(2, test.getOnoff());
+    assertEquals(2, test.getOnoff(), "onoff != 2"); //$NON-NLS-1$
    }
 
 
@@ -123,7 +123,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setLevel(50);
-    assertEquals(50, test.getLevel());
+    assertEquals(50, test.getLevel(), "evel != 50"); //$NON-NLS-1$
    }
 
 
@@ -135,7 +135,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setHue(180);
-    assertEquals(180, test.getHue());
+    assertEquals(180, test.getHue(), "hue != 180"); //$NON-NLS-1$
    }
 
 
@@ -147,7 +147,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setSaturation(128);
-    assertEquals(128, test.getSaturation());
+    assertEquals(128, test.getSaturation(), "saturation != 128"); //$NON-NLS-1$
    }
 
 
@@ -159,7 +159,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setDuration(1000);
-    assertEquals(1000, test.getDuration());
+    assertEquals(1000, test.getDuration(), "duration != 100"); //$NON-NLS-1$
    }
 
 
@@ -171,7 +171,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setEndtimestamp(1663251567);
-    assertEquals(1663251567, test.getEndtimestamp());
+    assertEquals(1663251567, test.getEndtimestamp(), "endtimestamp != 1663251567"); //$NON-NLS-1$
    }
 
 
@@ -183,7 +183,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setTarget("stop"); //$NON-NLS-1$
-    assertEquals("stop", test.getTarget()); //$NON-NLS-1$
+    assertEquals("stop", test.getTarget(), "target != stop"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -195,7 +195,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setName("testswitch"); //$NON-NLS-1$
-    assertEquals("testswitch", test.getName()); //$NON-NLS-1$
+    assertEquals("testswitch", test.getName(), "name != 'testswitch'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -207,7 +207,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setSwitchcmd("getswitchlist"); //$NON-NLS-1$
-    assertEquals("getswitchlist", test.getSwitchcmd()); //$NON-NLS-1$
+    assertEquals("getswitchlist", test.getSwitchcmd(), "switchcmd != 'getswitchlist'"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -219,7 +219,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setOnlyOnChange(true);
-    assertTrue(test.isOnlyOnChange());
+    assertTrue(test.isOnlyOnChange(), "onlyonchange != true"); //$NON-NLS-1$
    }
 
 
@@ -235,11 +235,11 @@ public class FBAHAConfigurationTest
     final String remaining = "test:topSecret@fritz.box:443/getswitchlist"; //$NON-NLS-1$
     test.configure(remaining);
     assertAll(
-      () -> assertEquals("test", test.getUsername()), //$NON-NLS-1$
-      () -> assertEquals("topSecret", test.getPassword()), //$NON-NLS-1$
-      () -> assertEquals("fritz.box", test.getHostname()), //$NON-NLS-1$
-      () -> assertEquals(443, test.getPort()),
-      () -> assertEquals("getswitchlist", test.getSwitchcmd()) //$NON-NLS-1$
+      () -> assertEquals("test", test.getUsername(), "username != 'test'"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals("topSecret", test.getPassword(), "password != 'topSecret'"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals("fritz.box", test.getHostname(), "hostname != 'fritz.bo'"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals(443, test.getPort(), "port != 443"), //$NON-NLS-1$
+      () -> assertEquals("getswitchlist", test.getSwitchcmd(), "switchcmd != 'getswitchlist'") //$NON-NLS-1$ //$NON-NLS-2$
     );
    }
 
@@ -256,9 +256,10 @@ public class FBAHAConfigurationTest
     final String remaining = "test:topSecret@fritz.box:443"; //$NON-NLS-1$
     final Exception exception = assertThrows(
       URISyntaxException.class,
-      () -> test.configure(remaining)
+      () -> test.configure(remaining),
+      "URI syntax exception expected" //$NON-NLS-1$
     );
-    assertTrue(exception.getMessage().contains("No switchcmd found!")); //$NON-NLS-1$
+    assertTrue(exception.getMessage().contains("No switchcmd found!"), "Msg not as expected"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -274,11 +275,11 @@ public class FBAHAConfigurationTest
     final String remaining = "/getswitchlist"; //$NON-NLS-1$
     test.configure(remaining);
     assertAll(
-      () -> assertEquals("", test.getUsername()), //$NON-NLS-1$
-      () -> assertEquals("", test.getPassword()), //$NON-NLS-1$
-      () -> assertEquals("fritz.box", test.getHostname()), //$NON-NLS-1$
-      () -> assertEquals(443, test.getPort()),
-      () -> assertEquals("getswitchlist", test.getSwitchcmd()) //$NON-NLS-1$
+      () -> assertEquals("", test.getUsername(), "username not empty"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals("", test.getPassword(), "password not empty"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals("fritz.box", test.getHostname(), "hostname != 'fritz.box'"), //$NON-NLS-1$ //$NON-NLS-2$
+      () -> assertEquals(443, test.getPort(), "port != 443"), //$NON-NLS-1$
+      () -> assertEquals("getswitchlist", test.getSwitchcmd(), "switchcmd != 'getswitchlist'") //$NON-NLS-1$ //$NON-NLS-2$
     );
    }
 
@@ -291,7 +292,7 @@ public class FBAHAConfigurationTest
    {
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setSwitchcmd("startulesubscription"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -304,7 +305,7 @@ public class FBAHAConfigurationTest
     final FBAHAConfiguration test = new FBAHAConfiguration();
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setSwitchcmd("setswitchon"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -318,7 +319,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setEndtimestamp(0);
     test.setSwitchcmd("sethkrboost"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -332,7 +333,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setTemperature(0);
     test.setSwitchcmd("sethkrtsoll"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -346,7 +347,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setOnoff(0);
     test.setSwitchcmd("setsimpleonoff"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -360,7 +361,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setLevel(0);
     test.setSwitchcmd("setlevel"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -374,7 +375,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setLevel(0);
     test.setSwitchcmd("setlevelpercentage"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -390,7 +391,7 @@ public class FBAHAConfigurationTest
     test.setSaturation(0);
     test.setDuration(0);
     test.setSwitchcmd("setcolor"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -405,7 +406,7 @@ public class FBAHAConfigurationTest
     test.setTemperature(2700);
     test.setDuration(0);
     test.setSwitchcmd("setcolortemperature"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -419,7 +420,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setTarget("stop"); //$NON-NLS-1$
     test.setSwitchcmd("setblind"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -433,7 +434,7 @@ public class FBAHAConfigurationTest
     test.setAin("123456789012"); //$NON-NLS-1$
     test.setName("test"); //$NON-NLS-1$
     test.setSwitchcmd("setname"); //$NON-NLS-1$
-    assertTrue(test.parameterCheck());
+    assertTrue(test.parameterCheck(), "parameterCheck not true"); //$NON-NLS-1$
    }
 
 
@@ -447,9 +448,10 @@ public class FBAHAConfigurationTest
     test.setSwitchcmd("unknowncmd"); //$NON-NLS-1$
     final Exception exception = assertThrows(
       IllegalArgumentException.class,
-      () -> test.parameterCheck()
+      () -> test.parameterCheck(),
+      "Illegal argument exception expected" //$NON-NLS-1$
     );
-    assertTrue(exception.getMessage().contains("Unsupported switchcmd: unknowncmd")); //$NON-NLS-1$
+    assertTrue(exception.getMessage().contains("Unsupported switchcmd: unknowncmd"), "Msg not as expected"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
 
@@ -476,7 +478,7 @@ public class FBAHAConfigurationTest
     test.setTarget(""); //$NON-NLS-1$
     test.setTemperature(0);
     test.setUsername(""); //$NON-NLS-1$
-    assertEquals("FBAHAConfiguration[hostname=, port=0, username=, password=XXX, switchcmd=, ain=, temperature=0, onoff=0, level=0, hue=0, saturation=0, duration=0, endtimestamp=0, target=, name=, onlyonchange=false]", test.toString()); //$NON-NLS-1$
+    assertEquals("FBAHAConfiguration[hostname=, port=0, username=, password=XXX, switchcmd=, ain=, temperature=0, onoff=0, level=0, hue=0, saturation=0, duration=0, endtimestamp=0, target=, name=, onlyonchange=false]", test.toString(), "toString not as expected"); //$NON-NLS-1$
    }
 
  }

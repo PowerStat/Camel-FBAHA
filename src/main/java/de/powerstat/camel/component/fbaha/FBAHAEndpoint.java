@@ -31,6 +31,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * FBAHA endpoint.
  */
+@SuppressWarnings({"java:S1160", "java:S2160"})
 @UriEndpoint(firstVersion = "3.18.1", scheme = "fbaha", title = "FBAHA", syntax = "fbaha:hostname:port/switchcmd", alternativeSyntax = "fbaha:username:password@hostname:port/switchcmd", category = {Category.JAVA, Category.API, Category.BATCH, Category.ENDPOINT})
 public class FBAHAEndpoint extends ScheduledPollEndpoint
  {

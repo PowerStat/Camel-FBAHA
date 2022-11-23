@@ -30,6 +30,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * FB AHA poll consumer.
  *
  * TODO exchange output as nativ, alwaysXML, json
+ * TODO header
+ * TODO body
  */
 public class FBAHAPollConsumer extends ScheduledPollConsumer
  {
@@ -114,7 +116,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
        {
         case "getswitchlist": //$NON-NLS-1$
           final List<AIN> switches = this.api.getSwitchList();
-          result = switches.stream().map(value -> value.getAIN()).collect(Collectors.joining(", ")); //$NON-NLS-1$
+          result = switches.stream().map(AIN::stringValue).collect(Collectors.joining(", ")); //$NON-NLS-1$
           break;
         case "getswitchstate": //$NON-NLS-1$
           result = String.valueOf(this.api.getSwitchState(AIN.of(this.conf.getAin())));
@@ -126,7 +128,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
           result = String.valueOf(this.api.getSwitchPower(AIN.of(this.conf.getAin())).getPowerWatt());
           break;
         case "getswitchenergy": //$NON-NLS-1$
-          result = String.valueOf(this.api.getSwitchEnergy(AIN.of(this.conf.getAin())).getEnergyWattHours());
+          result = String.valueOf(this.api.getSwitchEnergy(AIN.of(this.conf.getAin())).longValue());
           break;
         case "getswitchname": //$NON-NLS-1$
           result = this.api.getSwitchName(AIN.of(this.conf.getAin()));

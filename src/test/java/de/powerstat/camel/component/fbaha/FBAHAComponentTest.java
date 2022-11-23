@@ -40,7 +40,7 @@ public class FBAHAComponentTest extends CamelTestSupport
    {
     try (FBAHAComponent test = new FBAHAComponent())
      {
-      assertNotNull(test);
+      assertNotNull(test, "test is null"); //$NON-NLS-1$
      }
    }
 
@@ -55,7 +55,7 @@ public class FBAHAComponentTest extends CamelTestSupport
    {
     try (FBAHAComponent test = new FBAHAComponent(this.context))
      {
-      assertNotNull(test);
+      assertNotNull(test, "test is null"); //$NON-NLS-1$
      }
    }
 
@@ -67,7 +67,7 @@ public class FBAHAComponentTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void createEndpoint1() throws Exception
    {
     try (FBAHAComponent test = new FBAHAComponent(this.context))
@@ -75,7 +75,7 @@ public class FBAHAComponentTest extends CamelTestSupport
       final Map<String, Object> parameters = new HashMap<>();
       try (Endpoint endpoint = test.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
-        assertNotNull(endpoint);
+        assertNotNull(endpoint, "endpoint is null"); //$NON-NLS-1$
        }
      }
    }

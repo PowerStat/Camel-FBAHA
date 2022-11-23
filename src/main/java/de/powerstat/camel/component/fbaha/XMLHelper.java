@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 /**
  * XML helper.
  */
+@SuppressWarnings("java:S1160")
 public final class XMLHelper
  {
   /**

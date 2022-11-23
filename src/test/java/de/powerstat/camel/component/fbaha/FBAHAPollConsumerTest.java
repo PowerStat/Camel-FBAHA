@@ -28,7 +28,7 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void constructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -39,7 +39,7 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
         final Processor processor = null;
         try (FBAHAPollConsumer test = new FBAHAPollConsumer(endpoint, processor))
          {
-          assertNotNull(test);
+          assertNotNull(test, "test is null"); //$NON-NLS-1$
          }
        }
      }
@@ -53,7 +53,7 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void poll1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -65,7 +65,7 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
         try (FBAHAPollConsumer test = new FBAHAPollConsumer(endpoint, processor))
          {
           final int numOfMsgs = test.poll();
-          assertEquals(0, numOfMsgs);
+          assertEquals(0, numOfMsgs, "numOfMsgs != 0");
          }
        }
      }

@@ -29,7 +29,7 @@ public class FBAHAProducerTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void constructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -39,7 +39,7 @@ public class FBAHAProducerTest extends CamelTestSupport
        {
         try (FBAHAProducer test = new FBAHAProducer(endpoint))
          {
-          assertNotNull(test);
+          assertNotNull(test, "test is null"); //$NON-NLS-1$
          }
        }
      }
@@ -53,7 +53,7 @@ public class FBAHAProducerTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled
+  @Disabled("TODO")
   public void process1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
@@ -66,7 +66,7 @@ public class FBAHAProducerTest extends CamelTestSupport
           final Exchange exchange = new DefaultExchange(this.context);
           test.process(exchange);
           final String body = (String)exchange.getMessage().getBody();
-          assertEquals("", body); //$NON-NLS-1$
+          assertEquals("", body, "body is not empty"); //$NON-NLS-1$ //$NON-NLS-2$
          }
        }
      }

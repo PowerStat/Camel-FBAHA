@@ -43,7 +43,7 @@ public class XMLHelperTest
     source.setCharacterStream(new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><state code=\"0\"><latestain/></state>")); //$NON-NLS-1$
     final Document doc = docBuilder.parse(source);
     final String result = XMLHelper.convertDocumentToString(doc);
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<state code=\"0\">\n    <latestain/>\n</state>\n", result.replace("\r\n", "\n")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<state code=\"0\">\n    <latestain/>\n</state>\n", result.replace("\r\n", "\n"), "not equal"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
    }
 
  }

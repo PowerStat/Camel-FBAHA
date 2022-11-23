@@ -160,57 +160,57 @@ public class FBAHAConfiguration
   public void initParameters(final Map<String, Object> parameters)
    {
     Object obj = parameters.remove("ain"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.ain = (String)obj;
      }
     obj = parameters.remove("name"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.name = (String)obj;
      }
     obj = parameters.remove("target"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.target = (String)obj;
      }
     obj = parameters.remove("temperature"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.temperature = Long.parseLong((String)obj);
      }
     obj = parameters.remove("endtimestamp"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.endtimestamp = Long.parseLong((String)obj);
      }
     obj = parameters.remove("onoff"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.onoff = Integer.parseInt((String)obj);
      }
     obj = parameters.remove("level"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.level = Integer.parseInt((String)obj);
      }
     obj = parameters.remove("hue"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.hue = Integer.parseInt((String)obj);
      }
     obj = parameters.remove("saturation"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.saturation = Integer.parseInt((String)obj);
      }
     obj = parameters.remove("duration"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.duration = Integer.parseInt((String)obj);
      }
     obj = parameters.remove("onlyOnChange"); //$NON-NLS-1$
-    if ((obj != null) && (obj instanceof String))
+    if (obj instanceof String)
      {
       this.onlyOnChange = Boolean.parseBoolean((String)obj);
      }

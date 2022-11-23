@@ -29,6 +29,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * FBMini producer.
  *
  * TODO support headers
+ * TODO support body
  * TODO exchange input: nativ, xml, json
  * TODO exchange output: nativ, alwaysXML, json
  */
@@ -67,7 +68,7 @@ public class FBAHAProducer extends DefaultProducer
    * @throws SAXException SAX exception
    */
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY", "FII_USE_METHOD_REFERENCE"})
-  private String executeSwitchCmd(final FBAHAConfiguration conf, final AHASessionMini api, final String switchcmd) throws IOException, TransformerFactoryConfigurationError, TransformerException, SAXException
+  private static String executeSwitchCmd(final FBAHAConfiguration conf, final AHASessionMini api, final String switchcmd) throws IOException, TransformerFactoryConfigurationError, TransformerException, SAXException
    {
     String result = "";
     switch (switchcmd)
@@ -120,7 +121,7 @@ public class FBAHAProducer extends DefaultProducer
 
       case "getswitchlist": //$NON-NLS-1$
         final List<AIN> switches = api.getSwitchList();
-        result = switches.stream().map(value -> value.getAIN()).collect(Collectors.joining(", ")); //$NON-NLS-1$
+        result = switches.stream().map(AIN::stringValue).collect(Collectors.joining(", ")); //$NON-NLS-1$
         break;
       case "getswitchstate": //$NON-NLS-1$
         result = String.valueOf(api.getSwitchState(AIN.of(conf.getAin())));
@@ -132,7 +133,7 @@ public class FBAHAProducer extends DefaultProducer
         result = String.valueOf(api.getSwitchPower(AIN.of(conf.getAin())).getPowerWatt());
         break;
       case "getswitchenergy": //$NON-NLS-1$
-        result = String.valueOf(api.getSwitchEnergy(AIN.of(conf.getAin())).getEnergyWattHours());
+        result = String.valueOf(api.getSwitchEnergy(AIN.of(conf.getAin())).longValue());
         break;
       case "getswitchname": //$NON-NLS-1$
         result = api.getSwitchName(AIN.of(conf.getAin()));

@@ -24,8 +24,6 @@ import de.powerstat.fb.mini.AHASessionMini;
 
 /**
  * FBAHA camel component.
- *
- * TODO Configuration
  */
 @org.apache.camel.spi.annotations.Component("fbaha")
 public class FBAHAComponent extends DefaultComponent
@@ -71,6 +69,7 @@ public class FBAHAComponent extends DefaultComponent
    * @throws IOException IO exception
    * @throws InvalidKeyException Invalid key exception
    */
+  @SuppressWarnings("java:S3824")
   private void configureApiProxy(final FBAHAConfiguration configuration) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, ParserConfigurationException, InvalidKeyException, IOException, SAXException
    {
     final String key = configuration.getHostname() + ":" + configuration.getPort() + ":" + configuration.getUsername(); //$NON-NLS-1$ //$NON-NLS-2$
