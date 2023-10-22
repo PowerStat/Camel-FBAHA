@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Dipl.-Inform. Kai Hofmann. All rigths reserved!
+ * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- *
+ * FBAHAConfiguration test.
  */
 public class FBAHAConfigurationTest
  {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -32,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * FBAHA endpoint.
  */
 @SuppressWarnings({"java:S1160", "java:S2160"})
-@UriEndpoint(firstVersion = "3.18.1", scheme = "fbaha", title = "FBAHA", syntax = "fbaha:hostname:port/switchcmd", alternativeSyntax = "fbaha:username:password@hostname:port/switchcmd", category = {Category.JAVA, Category.API, Category.BATCH, Category.ENDPOINT})
+@UriEndpoint(firstVersion = "3.18.1", scheme = "fbaha", title = "FBAHA", syntax = "fbaha:hostname:port/switchcmd", alternativeSyntax = "fbaha:username:password@hostname:port/switchcmd", category = {Category.API, Category.IOT, Category.MANAGEMENT, Category.MONITORING, Category.NETWORKING})
 public class FBAHAEndpoint extends ScheduledPollEndpoint
  {
   /**

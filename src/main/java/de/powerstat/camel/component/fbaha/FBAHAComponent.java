@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -34,7 +34,7 @@ public class FBAHAComponent extends DefaultComponent
    * key = "hostname:port:username"
    * value = AHASessionMini
    */
-  Map<String, AHASessionMini> apiProxyCache = new ConcurrentHashMap<>();
+  private final Map<String, AHASessionMini> apiProxyCache = new ConcurrentHashMap<>();
 
 
   /**
