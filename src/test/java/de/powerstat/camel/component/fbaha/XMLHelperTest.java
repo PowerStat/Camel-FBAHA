@@ -24,8 +24,17 @@ import org.xml.sax.SAXException;
 /**
  * XML helper tests.
  */
-public class XMLHelperTest
+final class XMLHelperTest
  {
+  /**
+   * Default constructor.
+   */
+  /* default */ XMLHelperTest()
+   {
+    super();
+   }
+
+
   /**
    * Test convert document to string.
    *
@@ -36,7 +45,7 @@ public class XMLHelperTest
    * @throws ParserConfigurationException Parser configuration error
    */
   @Test
-  public void convertDocumentToString1() throws TransformerFactoryConfigurationError, TransformerException, SAXException, IOException, ParserConfigurationException
+  /* default */ void testConvertDocumentToString1() throws TransformerFactoryConfigurationError, TransformerException, SAXException, IOException, ParserConfigurationException
    {
     final DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     final InputSource source = new InputSource();

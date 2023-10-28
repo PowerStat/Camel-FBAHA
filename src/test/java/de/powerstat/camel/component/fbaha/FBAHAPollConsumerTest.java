@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.Processor;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -20,8 +20,17 @@ import org.junit.jupiter.api.Test;
 /**
  * Poll consumer tests.
  */
-public class FBAHAPollConsumerTest extends CamelTestSupport
+final class FBAHAPollConsumerTest extends CamelTestSupport
  {
+  /**
+   * Default constructor.
+   */
+  /* default */ FBAHAPollConsumerTest()
+   {
+    super();
+   }
+
+
   /**
    * Constructor test.
    *
@@ -29,11 +38,11 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
    */
   @Test
   @Disabled("TODO")
-  public void constructor1() throws Exception
+  /* default */ void testConstructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         final Processor processor = null;
@@ -54,11 +63,11 @@ public class FBAHAPollConsumerTest extends CamelTestSupport
    */
   @Test
   @Disabled("TODO")
-  public void poll1() throws Exception
+  /* default */ void testPoll1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         final Processor processor = null;

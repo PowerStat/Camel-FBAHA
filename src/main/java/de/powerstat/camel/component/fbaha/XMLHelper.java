@@ -8,7 +8,6 @@ import java.io.StringWriter;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -45,16 +44,16 @@ public final class XMLHelper
    */
   public static String convertDocumentToString(final Document doc) throws TransformerFactoryConfigurationError, TransformerException
    {
-    final TransformerFactory factory = TransformerFactory.newInstance();
+    final var factory = TransformerFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); //$NON-NLS-1$
-    final Transformer transformer = factory.newTransformer();
+    final var transformer = factory.newTransformer();
     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no"); //$NON-NLS-1$
     transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
     transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
     transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8"); //$NON-NLS-1$
-    final StringWriter writer = new StringWriter();
+    final var writer = new StringWriter();
     transformer.transform(new DOMSource(doc), new StreamResult(writer));
     return writer.toString();
    }

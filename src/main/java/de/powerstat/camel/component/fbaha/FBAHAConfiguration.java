@@ -619,7 +619,7 @@ public class FBAHAConfiguration
      }
     else
      {
-      final String hostName = restHost.substring(0, hostSepPos);
+      final var hostName = restHost.substring(0, hostSepPos);
       this.hostname = hostName.isEmpty() ? "fritz.box" : hostName; //$NON-NLS-1$
       this.port = Integer.parseInt(restHost.substring(hostSepPos + 1));
      }

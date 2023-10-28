@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Producer;
@@ -23,21 +23,46 @@ import de.powerstat.fb.mini.AHASessionMini;
 /**
  * FBAHAEndpoint tests.
  */
-public class FBAHAEndpointTest extends CamelTestSupport
+final class FBAHAEndpointTest extends CamelTestSupport
  {
+  /**
+   * TODO constant.
+   */
+  private static final String TODO = "TODO";
+
+  /**
+   * FBAHA top secret get switch list constant.
+   */
+  private static final String FBAHA_TOP_SECRET_GETSWITCHLIST = "fbaha::topSecret@/getswitchlist";
+
+  /**
+   * Get switch list constant.
+   */
+  private static final String TOP_SECRET_GETSWITCHLIST = ":topSecret@/getswitchlist";
+
+
+  /**
+   * Default constructor.
+   */
+  /* default */ FBAHAEndpointTest()
+   {
+    super();
+   }
+
+
   /**
    * Constructor test.
    *
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void constructor1() throws Exception
+  @Disabled(TODO)
+  /* default */ void testConstructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
        {
         assertNotNull(test, "test == null"); //$NON-NLS-1$
        }
@@ -51,13 +76,13 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void configuration1() throws Exception
+  @Disabled(TODO)
+  /* default */ void testConfiguration1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters))
        {
         final FBAHAConfiguration configuration2 = new FBAHAConfiguration();
         configuration2.setHostname("fritz.box"); //$NON-NLS-1$
@@ -79,13 +104,13 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void getApiProxy1() throws Exception
+  @Disabled(TODO)
+  /* default */ void testGetApiProxy1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
        {
         final AHASessionMini api = test.getApiProxy();
         assertNotNull(api, "api is null"); //$NON-NLS-1$
@@ -101,13 +126,13 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void getApiProxy2() throws Exception
+  @Disabled(TODO)
+  /* default */ void testGetApiProxy2() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
        {
         final AHASessionMini api = test.getApiProxy();
         assertNotNull(api, "api is null"); //$NON-NLS-1$
@@ -123,13 +148,13 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void createProducer1() throws Exception
+  @Disabled(TODO)
+  /* default */ void testCreateProducer1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
        {
         try (Producer producer = test.createProducer())
          {
@@ -147,13 +172,13 @@ public class FBAHAEndpointTest extends CamelTestSupport
    * @throws Exception Exception
    */
   @Test
-  @Disabled("TODO")
-  public void createConsumer1() throws Exception
+  @Disabled(TODO)
+  /* default */ void testCreateConsumer1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
-      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
+      try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
        {
         try (Consumer consumerLocal = test.createConsumer(null))
          {

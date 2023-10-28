@@ -77,13 +77,9 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
    * @param uri Endpoint uri fbaha:user:password@hostname:port/switchcommand?options
    * @param component FBAHA component
    * @param configuration Configuration
-   * @throws ParserConfigurationException Parser configuration exception
-   * @throws KeyStoreException Key store exception
-   * @throws NoSuchAlgorithmException No such algorithm exception
-   * @throws KeyManagementException Key management exception
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY"})
-  public FBAHAEndpoint(final String uri, final Component component, final FBAHAConfiguration configuration) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, ParserConfigurationException
+  public FBAHAEndpoint(final String uri, final Component component, final FBAHAConfiguration configuration)
    {
     super(uri, component);
     this.configuration = configuration;

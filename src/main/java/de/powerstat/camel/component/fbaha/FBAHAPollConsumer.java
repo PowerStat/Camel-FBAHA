@@ -109,7 +109,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY", "FII_USE_METHOD_REFERENCE"})
   private String executeSwitchCmd(final String switchcmd) throws TransformerFactoryConfigurationError
    {
-    String result = ""; //$NON-NLS-1$
+    var result = ""; //$NON-NLS-1$
     try
      {
       switch (switchcmd)
@@ -210,7 +210,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   protected int poll() throws Exception
    {
     this.api = this.endpoint.getApiProxy();
-    final Exchange exchange = handleSwitchCmd();
+    final var exchange = handleSwitchCmd();
     if (exchange == null)
      {
       // processEmptyMessage();

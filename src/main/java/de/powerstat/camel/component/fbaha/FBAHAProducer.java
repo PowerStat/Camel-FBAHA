@@ -70,7 +70,7 @@ public class FBAHAProducer extends DefaultProducer
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY", "FII_USE_METHOD_REFERENCE"})
   private static String executeSwitchCmd(final FBAHAConfiguration conf, final AHASessionMini api, final String switchcmd) throws IOException, TransformerFactoryConfigurationError, TransformerException, SAXException
    {
-    String result = "";
+    var result = "";
     switch (switchcmd)
      {
       case "setswitchon": //$NON-NLS-1$

@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.support.DefaultExchange;
@@ -21,8 +21,17 @@ import org.junit.jupiter.api.Test;
 /**
  * FBAHA producer test.
  */
-public class FBAHAProducerTest extends CamelTestSupport
+final class FBAHAProducerTest extends CamelTestSupport
  {
+  /**
+   * Default constructor.
+   */
+  /* default */ FBAHAProducerTest()
+   {
+    super();
+   }
+
+
   /**
    * Constructor test.
    *
@@ -30,11 +39,11 @@ public class FBAHAProducerTest extends CamelTestSupport
    */
   @Test
   @Disabled("TODO")
-  public void constructor1() throws Exception
+  /* default */ void testConstructor1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         try (FBAHAProducer test = new FBAHAProducer(endpoint))
@@ -54,11 +63,11 @@ public class FBAHAProducerTest extends CamelTestSupport
    */
   @Test
   @Disabled("TODO")
-  public void process1() throws Exception
+  /* default */ void testProcess1() throws Exception
    {
     try (FBAHAComponent component = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint endpoint = (FBAHAEndpoint)component.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         try (FBAHAProducer test = new FBAHAProducer(endpoint))

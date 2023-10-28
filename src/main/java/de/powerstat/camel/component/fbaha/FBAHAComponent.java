@@ -101,7 +101,7 @@ public class FBAHAComponent extends DefaultComponent
   @Override
   public Endpoint createEndpoint(final String uri, final String remaining, final Map<String, Object> parameters) throws Exception
    {
-    final FBAHAConfiguration configuration = new FBAHAConfiguration();
+    final var configuration = new FBAHAConfiguration();
     configuration.configure(remaining);
     configureApiProxy(configuration);
     configuration.initParameters(parameters);

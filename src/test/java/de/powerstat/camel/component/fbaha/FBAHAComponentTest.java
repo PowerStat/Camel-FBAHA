@@ -7,8 +7,8 @@ package de.powerstat.camel.component.fbaha;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.Endpoint;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -19,12 +19,12 @@ import org.junit.jupiter.api.Test;
 /**
  * FBAHA component tests.
  */
-public class FBAHAComponentTest extends CamelTestSupport
+final class FBAHAComponentTest extends CamelTestSupport
  {
   /**
    * Default constructor.
    */
-  public FBAHAComponentTest()
+  /* default */ FBAHAComponentTest()
    {
     super();
    }
@@ -36,7 +36,7 @@ public class FBAHAComponentTest extends CamelTestSupport
    * @throws IOException IO exception
    */
   @Test
-  public void constructor1() throws IOException
+  /* default */ void testConstructor1() throws IOException
    {
     try (FBAHAComponent test = new FBAHAComponent())
      {
@@ -51,7 +51,7 @@ public class FBAHAComponentTest extends CamelTestSupport
    * @throws IOException IO exception
    */
   @Test
-  public void constructor2() throws IOException
+  /* default */ void testConstructor2() throws IOException
    {
     try (FBAHAComponent test = new FBAHAComponent(this.context))
      {
@@ -68,11 +68,11 @@ public class FBAHAComponentTest extends CamelTestSupport
    */
   @Test
   @Disabled("TODO")
-  public void createEndpoint1() throws Exception
+  /* default */ void testCreateEndpoint1() throws Exception
    {
     try (FBAHAComponent test = new FBAHAComponent(this.context))
      {
-      final Map<String, Object> parameters = new HashMap<>();
+      final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (Endpoint endpoint = test.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component
        {
         assertNotNull(endpoint, "endpoint is null"); //$NON-NLS-1$
