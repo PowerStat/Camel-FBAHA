@@ -43,7 +43,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   private FBAHAConfiguration configuration;
 
 
-  /**
+  /* *
    * Default constructor.
    */
   /*
@@ -57,7 +57,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
    */
 
 
-  /**
+  /* *
    * Constructor.
    *
    * @param uri Endpoint uri

@@ -85,7 +85,7 @@ final class FBAHAComponentTest extends CamelTestSupport
   // TODO Producer tests
 
 
-  /**
+  /* *
    * Create route builder.
    */
   /*

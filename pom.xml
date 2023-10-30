@@ -20,9 +20,9 @@
   <properties>
     <license.inceptionYear>2022</license.inceptionYear>
 
-      </properties>
+  </properties>
 
- <distributionManagement>
+  <distributionManagement>
     <site>
       <id>powerstat</id>
       <url>sftp://${web.server}/camel/camel-fbaha/</url>
@@ -42,7 +42,7 @@
   <build>
     <defaultGoal>install</defaultGoal>
     <plugins>
-       <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.3.0</version>
@@ -180,13 +180,13 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-support</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test-junit5</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>de.powerstat.fb</groupId>
       <artifactId>miniapi</artifactId>

@@ -71,9 +71,9 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   public FBAHAPollConsumer(final DefaultEndpoint defaultEndpoint, final Processor processor)
    {
     super(defaultEndpoint, processor);
-    this.context =  defaultEndpoint.getCamelContext();
+    this.context = defaultEndpoint.getCamelContext();
     this.endpoint = ((FBAHAEndpoint)defaultEndpoint);
-    this.conf =  this.endpoint.getConfiguration();
+    this.conf = this.endpoint.getConfiguration();
    }
 
 

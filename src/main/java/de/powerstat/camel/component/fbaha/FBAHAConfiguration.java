@@ -746,7 +746,7 @@ public class FBAHAConfiguration
    */
   private boolean checkName()
    {
-    return  (this.name != null) && !this.name.isEmpty() && !this.name.isBlank();
+    return (this.name != null) && !this.name.isEmpty() && !this.name.isBlank();
    }
 
 

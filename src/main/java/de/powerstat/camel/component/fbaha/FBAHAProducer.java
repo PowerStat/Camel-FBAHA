@@ -77,10 +77,10 @@ public class FBAHAProducer extends DefaultProducer
         result = String.valueOf(api.setSwitchOn(AIN.of(conf.getAin())));
         break;
       case "setswitchoff": //$NON-NLS-1$
-        result =  String.valueOf(api.setSwitchOff(AIN.of(conf.getAin())));
+        result = String.valueOf(api.setSwitchOff(AIN.of(conf.getAin())));
         break;
       case "setswitchtoggle": //$NON-NLS-1$
-        result =  String.valueOf(api.setSwitchToggle(AIN.of(conf.getAin())));
+        result = String.valueOf(api.setSwitchToggle(AIN.of(conf.getAin())));
         break;
       case "sethkrtsoll": //$NON-NLS-1$
         api.setHkrtSoll(AIN.of(conf.getAin()), Temperature.of(conf.getTemperature()));
