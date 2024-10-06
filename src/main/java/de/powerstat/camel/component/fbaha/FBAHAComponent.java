@@ -117,13 +117,15 @@ public class FBAHAComponent extends DefaultComponent
   @Override
   public void doStop() throws Exception
    {
-    for (final Map.Entry<String, AHASessionMini> entry : this.apiProxyCache.entrySet())
+    synchronized (this)
      {
-      if (!entry.getValue().logoff())
+      for (final Map.Entry<String, AHASessionMini> entry : this.apiProxyCache.entrySet())
        {
-        // TODO log("Could not logoff from: " + entry.getKey()); //$NON-NLS-1$
+        if (!entry.getValue().logoff())
+         {
+          // TODO log("Could not logoff from: " + entry.getKey()); //$NON-NLS-1$
+         }
        }
-
      }
    }
 
