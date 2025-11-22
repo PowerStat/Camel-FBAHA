@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -7,6 +7,7 @@ package de.powerstat.camel.component.fbaha;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -19,10 +20,22 @@ import org.apache.camel.Processor;
 import org.apache.camel.support.DefaultEndpoint;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.ScheduledPollConsumer;
+import org.javatuples.Pair;
+import org.javatuples.Quintet;
 import org.xml.sax.SAXException;
 
 import de.powerstat.fb.mini.AHASessionMini;
 import de.powerstat.fb.mini.AIN;
+import de.powerstat.fb.mini.Energy;
+import de.powerstat.fb.mini.Hs;
+import de.powerstat.fb.mini.Power;
+import de.powerstat.fb.mini.SubscriptionState;
+import de.powerstat.fb.mini.TemperatureCelsius;
+import de.powerstat.fb.mini.TemperatureKelvin;
+import de.powerstat.fb.mini.Template;
+import de.powerstat.fb.mini.UnixTimestamp;
+import de.powerstat.fb.mini.Voltage;
+import de.powerstat.validation.values.Percent;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
@@ -71,9 +84,9 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   public FBAHAPollConsumer(final DefaultEndpoint defaultEndpoint, final Processor processor)
    {
     super(defaultEndpoint, processor);
-    this.context = defaultEndpoint.getCamelContext();
-    this.endpoint = ((FBAHAEndpoint)defaultEndpoint);
-    this.conf = this.endpoint.getConfiguration();
+    context = defaultEndpoint.getCamelContext();
+    endpoint = ((FBAHAEndpoint)defaultEndpoint);
+    conf = endpoint.getConfiguration();
    }
 
 
@@ -86,14 +99,14 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
    */
   private String cacheHandler(final String switchcmdAin, final String result)
    {
-    if (this.conf.isOnlyOnChange() && (result != null))
+    if (conf.isOnlyOnChange() && (result != null))
      {
-      final String lastResult = this.resultCache.get(switchcmdAin);
+      final String lastResult = resultCache.get(switchcmdAin);
       if ((lastResult != null) && lastResult.equals(result))
        {
         return null;
        }
-      this.resultCache.put(switchcmdAin, result);
+      resultCache.put(switchcmdAin, result);
      }
     return result;
    }
@@ -115,63 +128,67 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
       switch (switchcmd)
        {
         case "getswitchlist": //$NON-NLS-1$
-          final List<AIN> switches = this.api.getSwitchList();
+          final List<AIN> switches = api.getSwitchList();
           result = switches.stream().map(AIN::stringValue).collect(Collectors.joining(", ")); //$NON-NLS-1$
           break;
         case "getswitchstate": //$NON-NLS-1$
-          result = String.valueOf(this.api.getSwitchState(AIN.of(this.conf.getAin())));
+          result = String.valueOf(api.getSwitchState(AIN.of(conf.getAin())));
           break;
         case "getswitchpresent": //$NON-NLS-1$
-          result = String.valueOf(this.api.isSwitchPresent(AIN.of(this.conf.getAin())));
+          result = String.valueOf(api.isSwitchPresent(AIN.of(conf.getAin())));
           break;
         case "getswitchpower": //$NON-NLS-1$
-          result = String.valueOf(this.api.getSwitchPower(AIN.of(this.conf.getAin())).getPowerWatt());
+          result = String.valueOf(api.getSwitchPower(AIN.of(conf.getAin())).getPowerWatt());
           break;
         case "getswitchenergy": //$NON-NLS-1$
-          result = String.valueOf(this.api.getSwitchEnergy(AIN.of(this.conf.getAin())).longValue());
+          result = String.valueOf(api.getSwitchEnergy(AIN.of(conf.getAin())).longValue());
           break;
         case "getswitchname": //$NON-NLS-1$
-          result = this.api.getSwitchName(AIN.of(this.conf.getAin()));
+          result = api.getSwitchName(AIN.of(conf.getAin()));
           break;
         case "getdevicelistinfos": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getDeviceListInfos());
+          result = api.getDeviceListInfos().toString();
           break;
         case "gettemperature": //$NON-NLS-1$
-          result = String.valueOf(this.api.getTemperature(AIN.of(this.conf.getAin())).getTemperatureCelsius());
+          result = String.valueOf(api.getTemperature(AIN.of(conf.getAin())).getTemperatureCelsius());
           break;
         case "gethkrtsoll": //$NON-NLS-1$
-          result = String.valueOf(this.api.getHkrtSoll(AIN.of(this.conf.getAin())).getTemperatureCelsius());
+          result = String.valueOf(api.getHkrtSoll(AIN.of(conf.getAin())).getTemperatureCelsius());
           break;
         case "gethkrkomfort": //$NON-NLS-1$
-          result = String.valueOf(this.api.getHkrKomfort(AIN.of(this.conf.getAin())).getTemperatureCelsius());
+          result = String.valueOf(api.getHkrKomfort(AIN.of(conf.getAin())).getTemperatureCelsius());
           break;
         case "gethkrabsenk": //$NON-NLS-1$
-          result = String.valueOf(this.api.getHkrAbsenk(AIN.of(this.conf.getAin())).getTemperatureCelsius());
+          result = String.valueOf(api.getHkrAbsenk(AIN.of(conf.getAin())).getTemperatureCelsius());
           break;
         case "getbasicdevicestats": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getBasicDeviceStats(AIN.of(this.conf.getAin())));
+          final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
+          result = ""; // TODO List?
           break;
         case "gettemplatelistinfos": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getTemplateListInfos());
+          final List<Template> templInfos = api.getTemplateListInfos();
+          result = ""; // TODO List?
           break;
         case "getcolordefaults": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getColorDefaults());
+          final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
+          result = ""; // TODO List?
           break;
         case "getsubscriptionstate": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getSubscriptionState());
+          final SubscriptionState subStat = api.getSubscriptionState();
+          result = ""; // TODO code:latestain ?
           break;
         case "getdeviceinfo": //$NON-NLS-1$
-          result = XMLHelper.convertDocumentToString(this.api.getDeviceInfo(AIN.of(this.conf.getAin())));
+          result = api.getDeviceInfos(AIN.of(conf.getAin())).toString();
           break;
         default:
           result = null;
        }
      }
-    catch (final IOException | SAXException | TransformerException | TransformerFactoryConfigurationError e)
+    catch (final IOException | SAXException | TransformerFactoryConfigurationError e)
      {
       result = null;
      }
-    return cacheHandler(switchcmd + (this.conf.getAin() == null ? "" : this.conf.getAin()), result); //$NON-NLS-1$
+    return cacheHandler(switchcmd + (conf.getAin() == null ? "" : conf.getAin()), result); //$NON-NLS-1$
    }
 
 
@@ -184,8 +201,8 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
    */
   private Exchange handleSwitchCmd() throws TransformerFactoryConfigurationError
    {
-    final String switchcmd = this.conf.getSwitchcmd();
-    if (!this.conf.parameterCheck())
+    final String switchcmd = conf.getSwitchcmd();
+    if (!conf.parameterCheck())
      {
       throw new IllegalArgumentException("Missing arguments for switchcmd: " + switchcmd); //$NON-NLS-1$
      }
@@ -194,7 +211,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
      {
       return null;
      }
-    final Exchange exchange = new DefaultExchange(this.context);
+    final Exchange exchange = new DefaultExchange(context);
     exchange.getMessage().setBody(result);
     return exchange;
    }
@@ -209,7 +226,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   @Override
   protected int poll() throws Exception
    {
-    this.api = this.endpoint.getApiProxy();
+    api = endpoint.getApiProxy();
     final var exchange = handleSwitchCmd();
     if (exchange == null)
      {

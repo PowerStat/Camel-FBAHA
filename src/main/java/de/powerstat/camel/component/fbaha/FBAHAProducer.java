@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -7,6 +7,7 @@ package de.powerstat.camel.component.fbaha;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import javax.xml.transform.TransformerConfigurationException;
@@ -16,12 +17,29 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.support.DefaultProducer;
+import org.javatuples.Pair;
+import org.javatuples.Quintet;
 import org.xml.sax.SAXException;
 
 import de.powerstat.fb.mini.AHASessionMini;
 import de.powerstat.fb.mini.AHASessionMini.HandleBlind;
 import de.powerstat.fb.mini.AIN;
-import de.powerstat.fb.mini.Temperature;
+import de.powerstat.fb.mini.DurationMS100;
+import de.powerstat.fb.mini.EndTimestamp;
+import de.powerstat.fb.mini.Energy;
+import de.powerstat.fb.mini.Hs;
+import de.powerstat.fb.mini.Hue;
+import de.powerstat.fb.mini.Level;
+import de.powerstat.fb.mini.Power;
+import de.powerstat.fb.mini.Saturation;
+import de.powerstat.fb.mini.SubscriptionState;
+import de.powerstat.fb.mini.TemperatureCelsius;
+import de.powerstat.fb.mini.TemperatureKelvin;
+import de.powerstat.fb.mini.Template;
+import de.powerstat.fb.mini.UnixTimestamp;
+import de.powerstat.fb.mini.Voltage;
+import de.powerstat.validation.values.Percent;
+import de.powerstat.validation.values.Seconds;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
@@ -83,31 +101,31 @@ public class FBAHAProducer extends DefaultProducer
         result = String.valueOf(api.setSwitchToggle(AIN.of(conf.getAin())));
         break;
       case "sethkrtsoll": //$NON-NLS-1$
-        api.setHkrtSoll(AIN.of(conf.getAin()), Temperature.of(conf.getTemperature()));
+        api.setHkrtSoll(AIN.of(conf.getAin()), TemperatureCelsius.of(conf.getTemperature()));
         break;
       case "applytemplate": //$NON-NLS-1$
-        api.applyTemplate(conf.getAin());
+        api.applyTemplate(AIN.of(conf.getAin()));
         break;
       case "setsimpleonoff": //$NON-NLS-1$
-        api.setSimpleOnOff(AIN.of(conf.getAin()), conf.getOnoff());
+        api.setSimpleOnOff(AIN.of(conf.getAin()), AHASessionMini.HandleOnOff.values()[conf.getOnoff()]);
         break;
       case "setlevel": //$NON-NLS-1$
-        api.setLevel(AIN.of(conf.getAin()), conf.getLevel());
+        api.setLevel(AIN.of(conf.getAin()), Level.of(conf.getLevel()));
         break;
       case "setlevelpercentage": //$NON-NLS-1$
-        api.setLevelPercentage(AIN.of(conf.getAin()), conf.getLevel());
+        api.setLevelPercentage(AIN.of(conf.getAin()), Percent.of(conf.getLevel()));
         break;
       case "setcolor": //$NON-NLS-1$
-        api.setColor(AIN.of(conf.getAin()), conf.getHue(), conf.getSaturation(), conf.getDuration());
+        api.setColor(AIN.of(conf.getAin()), Hue.of(conf.getHue()), Saturation.of(conf.getSaturation()), DurationMS100.of(conf.getDuration()));
         break;
       case "setcolortemperature": //$NON-NLS-1$
-        api.setColorTemperature(AIN.of(conf.getAin()), (int)conf.getTemperature(), conf.getDuration());
+        api.setColorTemperature(AIN.of(conf.getAin()), TemperatureKelvin.of((int)conf.getTemperature()), DurationMS100.of(conf.getDuration()));
         break;
       case "sethkrboost": //$NON-NLS-1$
-        result = String.valueOf(api.setHkrBoost(AIN.of(conf.getAin()), conf.getEndtimestamp()));
+        result = String.valueOf(api.setHkrBoost(AIN.of(conf.getAin()), EndTimestamp.of(Seconds.of(conf.getEndtimestamp()))));
         break;
       case "sethkrwindowopen": //$NON-NLS-1$
-        result = String.valueOf(api.setHkrWindowOpen(AIN.of(conf.getAin()), conf.getEndtimestamp()));
+        result = String.valueOf(api.setHkrWindowOpen(AIN.of(conf.getAin()), EndTimestamp.of(Seconds.of(conf.getEndtimestamp()))));
         break;
       case "setblind": //$NON-NLS-1$
         api.setBlind(AIN.of(conf.getAin()), HandleBlind.valueOf(conf.getTarget().toUpperCase(Locale.getDefault())));
@@ -139,7 +157,7 @@ public class FBAHAProducer extends DefaultProducer
         result = api.getSwitchName(AIN.of(conf.getAin()));
         break;
       case "getdevicelistinfos": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getDeviceListInfos());
+        result = api.getDeviceListInfos().toString();
         break;
       case "gettemperature": //$NON-NLS-1$
         result = String.valueOf(api.getTemperature(AIN.of(conf.getAin())).getTemperatureCelsius());
@@ -154,19 +172,23 @@ public class FBAHAProducer extends DefaultProducer
         result = String.valueOf(api.getHkrAbsenk(AIN.of(conf.getAin())).getTemperatureCelsius());
         break;
       case "getbasicdevicestats": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getBasicDeviceStats(AIN.of(conf.getAin())));
+        final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
+        result = ""; // TODO
         break;
       case "gettemplatelistinfos": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getTemplateListInfos());
+        final List<Template> templInfos = api.getTemplateListInfos();
+        result = ""; // TODO
         break;
       case "getcolordefaults": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getColorDefaults());
+        final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
+        result = ""; // TODO
         break;
       case "getsubscriptionstate": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getSubscriptionState());
+        final SubscriptionState subStat = api.getSubscriptionState();
+        result = "";
         break;
       case "getdeviceinfo": //$NON-NLS-1$
-        result = XMLHelper.convertDocumentToString(api.getDeviceInfo(AIN.of(conf.getAin())));
+        result = api.getDeviceInfos(AIN.of(conf.getAin())).toString();
         break;
 
       default:
@@ -186,13 +208,13 @@ public class FBAHAProducer extends DefaultProducer
   @Override
   public void process(final Exchange exchange) throws Exception
    {
-    final FBAHAConfiguration conf = this.endpoint.getConfiguration();
+    final FBAHAConfiguration conf = endpoint.getConfiguration();
     final String switchcmd = conf.getSwitchcmd();
     if (!conf.parameterCheck())
      {
       throw new IllegalArgumentException("Missing arguments for switchcmd: " + switchcmd); //$NON-NLS-1$
      }
-    final AHASessionMini api = this.endpoint.getApiProxy();
+    final AHASessionMini api = endpoint.getApiProxy();
     final String result = executeSwitchCmd(conf, api, switchcmd);
     final Message msg = exchange.getIn();
     msg.setBody(result);

@@ -160,59 +160,59 @@ public class FBAHAConfiguration
   public void initParameters(final Map<String, Object> parameters)
    {
     Object obj = parameters.remove("ain"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.ain = (String)obj;
+      ain = value;
      }
     obj = parameters.remove("name"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.name = (String)obj;
+      name = value;
      }
     obj = parameters.remove("target"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.target = (String)obj;
+      target = value;
      }
     obj = parameters.remove("temperature"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.temperature = Long.parseLong((String)obj);
+      temperature = Long.parseLong(value);
      }
     obj = parameters.remove("endtimestamp"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.endtimestamp = Long.parseLong((String)obj);
+      endtimestamp = Long.parseLong(value);
      }
     obj = parameters.remove("onoff"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.onoff = Integer.parseInt((String)obj);
+      onoff = Integer.parseInt(value);
      }
     obj = parameters.remove("level"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.level = Integer.parseInt((String)obj);
+      level = Integer.parseInt(value);
      }
     obj = parameters.remove("hue"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.hue = Integer.parseInt((String)obj);
+      hue = Integer.parseInt(value);
      }
     obj = parameters.remove("saturation"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.saturation = Integer.parseInt((String)obj);
+      saturation = Integer.parseInt(value);
      }
     obj = parameters.remove("duration"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.duration = Integer.parseInt((String)obj);
+      duration = Integer.parseInt(value);
      }
     obj = parameters.remove("onlyOnChange"); //$NON-NLS-1$
-    if (obj instanceof String)
+    if (obj instanceof final String value)
      {
-      this.onlyOnChange = Boolean.parseBoolean((String)obj);
+      onlyOnChange = Boolean.parseBoolean(value);
      }
    }
 
@@ -224,7 +224,7 @@ public class FBAHAConfiguration
    */
   public AHASessionMini getApiProxy()
    {
-    return this.apiProxy;
+    return apiProxy;
    }
 
 
@@ -246,7 +246,7 @@ public class FBAHAConfiguration
    */
   public String getHostname()
    {
-    return this.hostname;
+    return hostname;
    }
 
 
@@ -268,7 +268,7 @@ public class FBAHAConfiguration
    */
   public int getPort()
    {
-    return this.port;
+    return port;
    }
 
 
@@ -290,7 +290,7 @@ public class FBAHAConfiguration
    */
   public String getUsername()
    {
-    return this.username;
+    return username;
    }
 
 
@@ -312,7 +312,7 @@ public class FBAHAConfiguration
    */
   public String getPassword()
    {
-    return this.password;
+    return password;
    }
 
 
@@ -334,7 +334,7 @@ public class FBAHAConfiguration
    */
   public String getAin()
    {
-    return this.ain;
+    return ain;
    }
 
 
@@ -356,7 +356,7 @@ public class FBAHAConfiguration
    */
   public long getTemperature()
    {
-    return this.temperature;
+    return temperature;
    }
 
 
@@ -378,7 +378,7 @@ public class FBAHAConfiguration
    */
   public int getOnoff()
    {
-    return this.onoff;
+    return onoff;
    }
 
 
@@ -400,7 +400,7 @@ public class FBAHAConfiguration
    */
   public int getLevel()
    {
-    return this.level;
+    return level;
    }
 
 
@@ -422,7 +422,7 @@ public class FBAHAConfiguration
    */
   public int getHue()
    {
-    return this.hue;
+    return hue;
    }
 
 
@@ -444,7 +444,7 @@ public class FBAHAConfiguration
    */
   public int getSaturation()
    {
-    return this.saturation;
+    return saturation;
    }
 
 
@@ -466,7 +466,7 @@ public class FBAHAConfiguration
    */
   public int getDuration()
    {
-    return this.duration;
+    return duration;
    }
 
 
@@ -488,7 +488,7 @@ public class FBAHAConfiguration
    */
   public long getEndtimestamp()
    {
-    return this.endtimestamp;
+    return endtimestamp;
    }
 
 
@@ -510,7 +510,7 @@ public class FBAHAConfiguration
    */
   public String getTarget()
    {
-    return this.target;
+    return target;
    }
 
 
@@ -532,7 +532,7 @@ public class FBAHAConfiguration
    */
   public String getName()
    {
-    return this.name;
+    return name;
    }
 
 
@@ -554,7 +554,7 @@ public class FBAHAConfiguration
    */
   public String getSwitchcmd()
    {
-    return this.switchcmd;
+    return switchcmd;
    }
 
 
@@ -576,7 +576,7 @@ public class FBAHAConfiguration
    */
   public boolean isOnlyOnChange()
    {
-    return this.onlyOnChange;
+    return onlyOnChange;
    }
 
 
@@ -606,7 +606,7 @@ public class FBAHAConfiguration
      {
       throw new URISyntaxException("", "No switchcmd found!"); //$NON-NLS-1$ //$NON-NLS-2$
      }
-    this.switchcmd = restUrl.substring(pathStartPos + 1);
+    switchcmd = restUrl.substring(pathStartPos + 1);
     restUrl = restUrl.substring(0, pathStartPos);
     final int atPos = restUrl.indexOf('@');
     final String restUser = (atPos == -1) ? "" : restUrl.substring(0, atPos); //$NON-NLS-1$
@@ -614,25 +614,25 @@ public class FBAHAConfiguration
     final int hostSepPos = restHost.indexOf(':');
     if (hostSepPos == -1)
      {
-      this.hostname = restHost.isEmpty() ? "fritz.box" : restHost; //$NON-NLS-1$
-      this.port = 443;
+      hostname = restHost.isEmpty() ? "fritz.box" : restHost; //$NON-NLS-1$
+      port = 443;
      }
     else
      {
       final var hostName = restHost.substring(0, hostSepPos);
-      this.hostname = hostName.isEmpty() ? "fritz.box" : hostName; //$NON-NLS-1$
-      this.port = Integer.parseInt(restHost.substring(hostSepPos + 1));
+      hostname = hostName.isEmpty() ? "fritz.box" : hostName; //$NON-NLS-1$
+      port = Integer.parseInt(restHost.substring(hostSepPos + 1));
      }
     final int userSepPos = restUser.indexOf(':');
     if (userSepPos == -1)
      {
-      this.username = restUser;
-      this.password = ""; //$NON-NLS-1$
+      username = restUser;
+      password = ""; //$NON-NLS-1$
      }
     else
      {
-      this.username = restUser.substring(0, userSepPos);
-      this.password = restUser.substring(userSepPos + 1);
+      username = restUser.substring(0, userSepPos);
+      password = restUser.substring(userSepPos + 1);
      }
    }
 
@@ -644,7 +644,7 @@ public class FBAHAConfiguration
    */
   private boolean checkAIN()
    {
-    return (this.ain != null) && !this.ain.isEmpty() && !this.ain.isBlank();
+    return (ain != null) && !ain.isEmpty() && !ain.isBlank();
     // (ain.length() != 12) && (ain.length() != 13) // 14/15
     // final String intAIN = ain.replaceAll("\\s", "");
     // intAIN.matches("^[0-9]{12}$") // -[0-9]
@@ -658,7 +658,7 @@ public class FBAHAConfiguration
    */
   private boolean checkOnOff()
    {
-    return (this.onoff >= 0) && (this.onoff <= 2);
+    return (onoff >= 0) && (onoff <= 2);
    }
 
 
@@ -669,7 +669,7 @@ public class FBAHAConfiguration
    */
   private boolean checkLevel()
    {
-    return (this.level >= 0) && (this.level <= 255);
+    return (level >= 0) && (level <= 255);
    }
 
 
@@ -680,7 +680,7 @@ public class FBAHAConfiguration
    */
   private boolean checkLevelPercentage()
    {
-    return (this.level >= 0) && (this.level <= 100);
+    return (level >= 0) && (level <= 100);
    }
 
 
@@ -691,7 +691,7 @@ public class FBAHAConfiguration
    */
   private boolean checkDuration()
    {
-    return (this.duration >= 0);
+    return (duration >= 0);
    }
 
 
@@ -702,7 +702,7 @@ public class FBAHAConfiguration
    */
   private boolean checkHueAndSaturation()
    {
-    return (this.hue >= 0) && (this.hue <= 359) && (this.saturation >= 0) && (this.saturation <= 255);
+    return (hue >= 0) && (hue <= 359) && (saturation >= 0) && (saturation <= 255);
    }
 
 
@@ -713,7 +713,7 @@ public class FBAHAConfiguration
    */
   private boolean checkColorTemperature()
    {
-    return (this.temperature >= 2700) && (this.temperature <= 6500);
+    return (temperature >= 2700) && (temperature <= 6500);
    }
 
 
@@ -724,7 +724,7 @@ public class FBAHAConfiguration
    */
   private boolean checkEndTimeStamp()
    {
-    return (this.endtimestamp >= 0) && (this.endtimestamp <= (Instant.now().getEpochSecond() + 86400));
+    return (endtimestamp >= 0) && (endtimestamp <= (Instant.now().getEpochSecond() + 86400));
    }
 
 
@@ -735,7 +735,7 @@ public class FBAHAConfiguration
    */
   private boolean checkTarget()
    {
-    return (this.target != null) && !this.target.isEmpty() && !this.target.isBlank() && ("open".equals(this.target) || "close".equals(this.target) || "stop".equals(this.target)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    return (target != null) && !target.isEmpty() && !target.isBlank() && ("open".equals(target) || "close".equals(target) || "stop".equals(target)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
 
@@ -746,7 +746,7 @@ public class FBAHAConfiguration
    */
   private boolean checkName()
    {
-    return (this.name != null) && !this.name.isEmpty() && !this.name.isBlank();
+    return (name != null) && !name.isEmpty() && !name.isBlank();
    }
 
 
@@ -757,7 +757,7 @@ public class FBAHAConfiguration
    */
   private boolean checkTemperature()
    {
-    return (this.temperature == 0) || (this.temperature == 300) || ((this.temperature >= 80) && (this.temperature <= 280));
+    return (temperature == 0) || (temperature == 300) || ((temperature >= 80) && (temperature <= 280));
    }
 
 
@@ -769,7 +769,7 @@ public class FBAHAConfiguration
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY"})
   public boolean parameterCheck()
    {
-    switch (this.switchcmd)
+    switch (switchcmd)
      {
       case "startulesubscription": //$NON-NLS-1$
       case "getswitchlist": //$NON-NLS-1$
@@ -824,7 +824,7 @@ public class FBAHAConfiguration
         return (checkAIN() && checkName());
 
       default:
-        throw new IllegalArgumentException("Unsupported switchcmd: " + this.switchcmd); //$NON-NLS-1$
+        throw new IllegalArgumentException("Unsupported switchcmd: " + switchcmd); //$NON-NLS-1$
      }
    }
 
@@ -842,22 +842,22 @@ public class FBAHAConfiguration
   @Override
   public String toString()
    {
-    return new StringBuilder().append("FBAHAConfiguration[hostname=").append(this.hostname) //$NON-NLS-1$
-      .append(", port=").append(this.port) //$NON-NLS-1$
-      .append(", username=").append(this.username) //$NON-NLS-1$
+    return new StringBuilder().append("FBAHAConfiguration[hostname=").append(hostname) //$NON-NLS-1$
+      .append(", port=").append(port) //$NON-NLS-1$
+      .append(", username=").append(username) //$NON-NLS-1$
       .append(", password=").append("XXX") //$NON-NLS-1$ //$NON-NLS-2$
-      .append(", switchcmd=").append(this.switchcmd) //$NON-NLS-1$
-      .append(", ain=").append(this.ain) //$NON-NLS-1$
-      .append(", temperature=").append(this.temperature) //$NON-NLS-1$
-      .append(", onoff=").append(this.onoff) //$NON-NLS-1$
-      .append(", level=").append(this.level) //$NON-NLS-1$
-      .append(", hue=").append(this.hue) //$NON-NLS-1$
-      .append(", saturation=").append(this.saturation) //$NON-NLS-1$
-      .append(", duration=").append(this.duration) //$NON-NLS-1$
-      .append(", endtimestamp=").append(this.endtimestamp) //$NON-NLS-1$
-      .append(", target=").append(this.target) //$NON-NLS-1$
-      .append(", name=").append(this.name) //$NON-NLS-1$
-      .append(", onlyonchange=").append(this.onlyOnChange) //$NON-NLS-1$
+      .append(", switchcmd=").append(switchcmd) //$NON-NLS-1$
+      .append(", ain=").append(ain) //$NON-NLS-1$
+      .append(", temperature=").append(temperature) //$NON-NLS-1$
+      .append(", onoff=").append(onoff) //$NON-NLS-1$
+      .append(", level=").append(level) //$NON-NLS-1$
+      .append(", hue=").append(hue) //$NON-NLS-1$
+      .append(", saturation=").append(saturation) //$NON-NLS-1$
+      .append(", duration=").append(duration) //$NON-NLS-1$
+      .append(", endtimestamp=").append(endtimestamp) //$NON-NLS-1$
+      .append(", target=").append(target) //$NON-NLS-1$
+      .append(", name=").append(name) //$NON-NLS-1$
+      .append(", onlyonchange=").append(onlyOnChange) //$NON-NLS-1$
       .append(']').toString();
    }
 
