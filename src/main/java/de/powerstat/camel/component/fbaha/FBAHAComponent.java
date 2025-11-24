@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -75,11 +76,11 @@ public class FBAHAComponent extends DefaultComponent
     final String key = configuration.getHostname() + ":" + configuration.getPort() + ":" + configuration.getUsername(); //$NON-NLS-1$ //$NON-NLS-2$
     synchronized (this)
      {
-      AHASessionMini apiProxy = this.apiProxyCache.get(key);
+      AHASessionMini apiProxy = apiProxyCache.get(key);
       if (apiProxy == null)
        {
         apiProxy = AHASessionMini.newInstance(configuration.getHostname(), configuration.getPort(), configuration.getUsername(), configuration.getPassword());
-        this.apiProxyCache.put(key, apiProxy);
+        apiProxyCache.put(key, apiProxy);
         if (!apiProxy.logon())
          {
           throw new IllegalStateException("Could not login to: " + configuration.getHostname()); //$NON-NLS-1$
@@ -119,7 +120,7 @@ public class FBAHAComponent extends DefaultComponent
    {
     synchronized (this)
      {
-      for (final Map.Entry<String, AHASessionMini> entry : this.apiProxyCache.entrySet())
+      for (final Map.Entry<String, AHASessionMini> entry : apiProxyCache.entrySet())
        {
         if (!entry.getValue().logoff())
          {

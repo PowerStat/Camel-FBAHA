@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -53,7 +54,7 @@ final class FBAHAComponentTest extends CamelTestSupport
   @Test
   /* default */ void testConstructor2() throws IOException
    {
-    try (FBAHAComponent test = new FBAHAComponent(this.context))
+    try (FBAHAComponent test = new FBAHAComponent(context))
      {
       assertNotNull(test, "test is null"); //$NON-NLS-1$
      }
@@ -70,7 +71,7 @@ final class FBAHAComponentTest extends CamelTestSupport
   @Disabled("TODO")
   /* default */ void testCreateEndpoint1() throws Exception
    {
-    try (FBAHAComponent test = new FBAHAComponent(this.context))
+    try (FBAHAComponent test = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (Endpoint endpoint = test.createEndpoint("fbaha::topSecret@/getswitchlist", ":topSecret@/getswitchlist", parameters)) //$NON-NLS-1$ //$NON-NLS-2$ // TODO mock Component

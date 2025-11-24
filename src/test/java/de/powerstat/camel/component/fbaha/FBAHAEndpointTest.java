@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -59,7 +60,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testConstructor1() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
@@ -79,7 +80,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testConfiguration1() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters))
@@ -107,7 +108,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testGetApiProxy1() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
@@ -129,7 +130,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testGetApiProxy2() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
@@ -151,7 +152,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testCreateProducer1() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component
@@ -175,7 +176,7 @@ final class FBAHAEndpointTest extends CamelTestSupport
   @Disabled(TODO)
   /* default */ void testCreateConsumer1() throws Exception
    {
-    try (FBAHAComponent component = new FBAHAComponent(this.context))
+    try (FBAHAComponent component = new FBAHAComponent(context))
      {
       final Map<String, Object> parameters = new ConcurrentHashMap<>();
       try (FBAHAEndpoint test = (FBAHAEndpoint)component.createEndpoint(FBAHA_TOP_SECRET_GETSWITCHLIST, TOP_SECRET_GETSWITCHLIST, parameters)) // TODO mock Component

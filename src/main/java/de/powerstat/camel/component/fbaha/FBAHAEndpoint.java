@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2022-2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2022-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.camel.component.fbaha;
 
@@ -104,7 +105,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   @Override
   public Producer createProducer() throws Exception
    {
-    ObjectHelper.notNull(this.configuration, "configuration"); //$NON-NLS-1$
+    ObjectHelper.notNull(configuration, "configuration"); //$NON-NLS-1$
     return new FBAHAProducer(this);
    }
 
@@ -117,7 +118,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   @Override
   public Consumer createConsumer(final Processor processor) throws Exception
    {
-    ObjectHelper.notNull(this.configuration, "configuration"); //$NON-NLS-1$
+    ObjectHelper.notNull(configuration, "configuration"); //$NON-NLS-1$
     final Consumer consumer = new FBAHAPollConsumer(this, processor);
     configureConsumer(consumer);
     return consumer;
@@ -132,7 +133,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   @SuppressFBWarnings({"EI_EXPOSE_REP"})
   public FBAHAConfiguration getConfiguration()
    {
-    return this.configuration;
+    return configuration;
    }
 
 
@@ -175,7 +176,7 @@ public class FBAHAEndpoint extends ScheduledPollEndpoint
   public AHASessionMini getApiProxy()
    {
     // TODO synchronize
-    return this.configuration.getApiProxy();
+    return configuration.getApiProxy();
    }
 
  }
