@@ -15,6 +15,11 @@ import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 
 import de.powerstat.fb.mini.AHASessionMini;
+import de.powerstat.fb.mini.AIN;
+import de.powerstat.fb.mini.DurationMS100;
+import de.powerstat.fb.mini.Hue;
+import de.powerstat.fb.mini.Saturation;
+import de.powerstat.fb.mini.ScenarioType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 
@@ -137,6 +142,44 @@ public class FBAHAConfiguration
   private String name; // TODO DeviceOrGroupName
 
   /**
+   * Trigger: true: active; false: inactive.
+   */
+  @UriParam
+  @Metadata(required = false, description = "Trigger: true: active; false: inactive.")
+  private boolean active;
+
+  /**
+   * Color preset: true: use Colordefaults; false: do not use defaults (default)
+   */
+  @UriParam
+  @Metadata(required = false, description = "true: use Colordefaults; false: do not use defaults (default)")
+  private boolean colorpreset;
+
+  /**
+   * Icon id > 0 or -1 if undefined.
+   */
+  @UriParam
+  @Metadata(required = false, description = "Icon id > 0 or -1 if undefined")
+  private int icon;
+
+  /**
+   * Percent 0-100.
+   */
+  @UriParam
+  @Metadata(required = false, description = "Percent 0-100")
+  private int percent;
+
+  /**
+   * Scenario type: undefined, coming, leaving, generic.
+   */
+  @UriParam
+  @Metadata(required = false, description = "Scenario type: undefined, coming, leaving, generic.")
+  private String type; // TODO enum
+
+
+  // AIN ains ...
+
+  /**
    * Consumer only: send exchange only on change. Defaults to false.
    */
   @UriParam
@@ -215,6 +258,32 @@ public class FBAHAConfiguration
      {
       onlyOnChange = Boolean.parseBoolean(value);
      }
+    obj = parameters.remove("active"); //$NON-NLS-1$
+    if (obj instanceof final String value)
+     {
+      active = Boolean.parseBoolean(value);
+     }
+    obj = parameters.remove("colorPreset"); //$NON-NLS-1$
+    if (obj instanceof final String value)
+     {
+      colorpreset = Boolean.parseBoolean(value);
+     }
+    obj = parameters.remove("icon"); //$NON-NLS-1$
+    if (obj instanceof final String value)
+     {
+      icon = Integer.parseInt(value);
+     }
+    obj = parameters.remove("percent"); //$NON-NLS-1$
+    if (obj instanceof final String value)
+     {
+      percent = Integer.parseInt(value);
+     }
+    obj = parameters.remove("type"); //$NON-NLS-1$
+    if (obj instanceof final String value)
+     {
+      type = value;
+     }
+    // TODO AINs
    }
 
 
@@ -549,6 +618,119 @@ public class FBAHAConfiguration
 
 
   /**
+   * Is active.
+   *
+   * @return Active: true/false
+   */
+  public boolean isActive()
+   {
+    return active;
+   }
+
+
+  /**
+   * Set active.
+   *
+   * @param active Trigger active: true/false
+   */
+  public void setActive(final boolean active)
+   {
+    this.active = active;
+   }
+
+
+  /**
+   * Get color preset.
+   *
+   * @return Color preset: true/false
+   */
+  public boolean isColorpreset()
+   {
+    return colorpreset;
+   }
+
+
+  /**
+   * Set color preset.
+   *
+   * @param colorpreset true/false
+   */
+  public void setColorpreset(final boolean colorpreset)
+   {
+    this.colorpreset = colorpreset;
+   }
+
+
+  /**
+   * Get icon.
+   *
+   * @return Icon: id > 0 or -1 if undefined.
+   */
+  public int getIcon()
+   {
+    return icon;
+   }
+
+
+  /**
+   * Set icon.
+   *
+   * @param icon id > 0 or -1 if undefined
+   */
+  public void setIcon(final int icon)
+   {
+    this.icon = icon;
+   }
+
+
+  /**
+   * Get percent.
+   *
+   * @return Percent (0-100)
+   */
+  public int getPercent()
+   {
+    return percent;
+   }
+
+
+  /**
+   * Set percent.
+   *
+   * @param percent 0-100
+   */
+  public void setPercent(final int percent)
+   {
+    this.percent = percent;
+   }
+
+
+  /**
+   * Get scenario type.
+   *
+   * @return Type
+   */
+  public String getType()
+   {
+    return type;
+   }
+
+
+  /**
+   * Set type.
+   *
+   * @param type Scenario type
+   */
+  public void setType(final String type)
+   {
+    this.type = type;
+   }
+
+
+  // TODO AINs
+
+
+  /**
    * Get switch command.
    *
    * @return Switch command
@@ -763,6 +945,39 @@ public class FBAHAConfiguration
 
 
   /**
+   * Check icon id.
+   *
+   * @return true: if correct, false otherwise
+   */
+  private boolean checkIcon()
+   {
+    return (icon == -1) || (icon > 0);
+   }
+
+
+  /**
+   * Check scenario type.
+   *
+   * @return true: if correct, false otherwise
+   */
+  private boolean checkType()
+   {
+    return (type != null) && !type.isEmpty() && !type.isBlank() && ("undefined".equals(type) || "coming".equals(type) || "leaving".equals(type) || "generic".equals(type)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+   }
+
+
+  /**
+   * Check percent.
+   *
+   * @return true: if correct, false otherwise
+   */
+  private boolean checkPercent()
+   {
+    return (percent >= 0) && (percent <= 100);
+   }
+
+
+  /**
    * Check if all parameters for the switchcmd are given.
    *
    * @return true: Check successful, false otherwise.
@@ -770,63 +985,71 @@ public class FBAHAConfiguration
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY"})
   public boolean parameterCheck()
    {
-    switch (switchcmd)
+    return switch (switchcmd)
      {
-      case "startulesubscription": //$NON-NLS-1$
-      case "getswitchlist": //$NON-NLS-1$
-      case "getdevicelistinfos": //$NON-NLS-1$
-      case "gettemplatelistinfos": //$NON-NLS-1$
-      case "getcolordefaults": //$NON-NLS-1$
-      case "getsubscriptionstate": //$NON-NLS-1$
-        return true;
+      case "startulesubscription", //$NON-NLS-1$
+           "getswitchlist", //$NON-NLS-1$
+           "getdevicelistinfos", //$NON-NLS-1$
+           "gettemplatelistinfos", //$NON-NLS-1$
+           "getcolordefaults", //$NON-NLS-1$
+           "getsubscriptionstate", //$NON-NLS-1$
+           "gettriggerlistinfos"
+           -> true;
 
-      case "setswitchon": //$NON-NLS-1$
-      case "setswitchoff": //$NON-NLS-1$
-      case "setswitchtoggle": //$NON-NLS-1$
-      case "applytemplate": //$NON-NLS-1$
-      case "getswitchstate": //$NON-NLS-1$
-      case "getswitchpresent": //$NON-NLS-1$
-      case "getswitchpower": //$NON-NLS-1$
-      case "getswitchenergy": //$NON-NLS-1$
-      case "getswitchname": //$NON-NLS-1$
-      case "gettemperature": //$NON-NLS-1$
-      case "gethkrtsoll": //$NON-NLS-1$
-      case "gethkrkomfort": //$NON-NLS-1$
-      case "gethkrabsenk": //$NON-NLS-1$
-      case "getbasicdevicestats": //$NON-NLS-1$
-      case "getdeviceinfo": //$NON-NLS-1$
-        return checkAIN();
+      case "setswitchon", //$NON-NLS-1$
+           "setswitchoff", //$NON-NLS-1$
+           "setswitchtoggle", //$NON-NLS-1$
+           "applytemplate", //$NON-NLS-1$
+           "settriggeractive", //$NON-NLS-1$  // TODO checkActive()
+           "getswitchstate", //$NON-NLS-1$
+           "getswitchpresent", //$NON-NLS-1$
+           "getswitchpower", //$NON-NLS-1$
+           "getswitchenergy", //$NON-NLS-1$
+           "getswitchname", //$NON-NLS-1$
+           "gettemperature", //$NON-NLS-1$
+           "gethkrtsoll", //$NON-NLS-1$
+           "gethkrkomfort", //$NON-NLS-1$
+           "gethkrabsenk", //$NON-NLS-1$
+           "getbasicdevicestats", //$NON-NLS-1$
+           "getdeviceinfos" //$NON-NLS-1$
+           -> checkAIN();
 
-      case "sethkrboost": //$NON-NLS-1$
-      case "sethkrwindowopen": //$NON-NLS-1$
-        return (checkAIN() && checkEndTimeStamp());
+      case "sethkrboost", //$NON-NLS-1$
+            "sethkrwindowopen" //$NON-NLS-1$
+            -> (checkAIN() && checkEndTimeStamp());
 
-      case "sethkrtsoll": //$NON-NLS-1$
-        return (checkAIN() && checkTemperature());
+      case "sethkrtsoll" //$NON-NLS-1$
+           -> (checkAIN() && checkTemperature());
 
-      case "setsimpleonoff": //$NON-NLS-1$
-        return (checkAIN() && checkOnOff());
+      case "setsimpleonoff" //$NON-NLS-1$
+           -> (checkAIN() && checkOnOff());
 
-      case "setlevel": //$NON-NLS-1$
-        return (checkAIN() && checkLevel());
-      case "setlevelpercentage": //$NON-NLS-1$
-        return (checkAIN() && checkLevelPercentage());
+      case "setlevel" //$NON-NLS-1$
+           -> (checkAIN() && checkLevel());
+      case "setlevelpercentage" //$NON-NLS-1$
+           -> (checkAIN() && checkLevelPercentage());
 
-      case "setcolor": //$NON-NLS-1$
-        return (checkAIN() && checkHueAndSaturation() && checkDuration());
+      case "setcolor", //$NON-NLS-1$
+           "setunmappedcolor"
+           -> (checkAIN() && checkHueAndSaturation() && checkDuration());
 
-      case "setcolortemperature": //$NON-NLS-1$
-        return (checkAIN() && checkColorTemperature() && checkDuration());
+      case "setcolortemperature" //$NON-NLS-1$
+           -> (checkAIN() && checkColorTemperature() && checkDuration());
 
-      case "setblind": //$NON-NLS-1$
-        return (checkAIN() && checkTarget());
+      case "setblind" //$NON-NLS-1$
+           -> (checkAIN() && checkTarget());
 
-      case "setname": //$NON-NLS-1$
-        return (checkAIN() && checkName());
+      case "setname" //$NON-NLS-1$
+           -> (checkAIN() && checkName());
 
-      default:
-        throw new IllegalArgumentException("Unsupported switchcmd: " + switchcmd); //$NON-NLS-1$
-     }
+      case "setmetadata" //$NON-NLS-1$
+           -> (checkAIN() && checkIcon() && checkType());
+
+      case "addcolorleveltemplate" //$NON-NLS-1$
+           -> (checkName() && checkPercent() && checkHueAndSaturation() && checkColorTemperature()); // && checkColorPresets() TODO: && checkAINs()
+
+      default -> throw new IllegalArgumentException("Unsupported switchcmd: " + switchcmd); //$NON-NLS-1$
+     };
    }
 
 
@@ -858,6 +1081,11 @@ public class FBAHAConfiguration
       .append(", endtimestamp=").append(endtimestamp) //$NON-NLS-1$
       .append(", target=").append(target) //$NON-NLS-1$
       .append(", name=").append(name) //$NON-NLS-1$
+      .append(", active=").append(active)
+      .append(", colorpreset=").append(colorpreset)
+      .append(", icon=").append(icon)
+      .append(", percent=").append(percent)
+      .append(", type=").append(type)
       .append(", onlyonchange=").append(onlyOnChange) //$NON-NLS-1$
       .append(']').toString();
    }

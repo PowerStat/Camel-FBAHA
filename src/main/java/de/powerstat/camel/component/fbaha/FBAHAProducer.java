@@ -31,12 +31,15 @@ import de.powerstat.fb.mini.Energy;
 import de.powerstat.fb.mini.Hs;
 import de.powerstat.fb.mini.Hue;
 import de.powerstat.fb.mini.Level;
+import de.powerstat.fb.mini.Metadata;
 import de.powerstat.fb.mini.Power;
 import de.powerstat.fb.mini.Saturation;
+import de.powerstat.fb.mini.ScenarioType;
 import de.powerstat.fb.mini.SubscriptionState;
 import de.powerstat.fb.mini.TemperatureCelsius;
 import de.powerstat.fb.mini.TemperatureKelvin;
 import de.powerstat.fb.mini.Template;
+import de.powerstat.fb.mini.Trigger;
 import de.powerstat.fb.mini.UnixTimestamp;
 import de.powerstat.fb.mini.Voltage;
 import de.powerstat.validation.values.Percent;
@@ -137,6 +140,20 @@ public class FBAHAProducer extends DefaultProducer
       case "startulesubscription": //$NON-NLS-1$
         api.startUleSubscription();
         break;
+      case "setunmappedcolor": //$NON-NLS-1$
+        api.setUnmappedColor(AIN.of(conf.getAin()), Hue.of(conf.getHue()), Saturation.of(conf.getSaturation()), DurationMS100.of(conf.getDuration()));
+        break;
+      case "setmetadata": //$NON-NLS-1$
+        api.setMetaData(AIN.of(conf.getAin()), Metadata.of(conf.getIcon(), ScenarioType.of(conf.getType())));
+        break;
+      case "settriggeractive": //$NON-NLS-1$
+        api.setTriggerActive(AIN.of(conf.getAin()), conf.isActive());
+        break;
+      case "addcolorleveltemplate": //$NON-NLS-1$
+        // TODO Optional: Hue, Saturation, Temperature
+        // TODO AINs
+        // api.addColorLevelTemplate(conf.getName(), Percent.of(conf.getPercent()), Hue.of(conf.getHue()), Saturation.of(conf.getSaturation()), TemperatureKelvin.of(conf.getTemperature()), conf.getColorPreset(), null); // TODO
+        break;
 
       case "getswitchlist": //$NON-NLS-1$
         final List<AIN> switches = api.getSwitchList();
@@ -174,22 +191,31 @@ public class FBAHAProducer extends DefaultProducer
         break;
       case "getbasicdevicestats": //$NON-NLS-1$
         final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
-        result = ""; // TODO
+        result = ""; // TODO XML?
         break;
       case "gettemplatelistinfos": //$NON-NLS-1$
         final List<Template> templInfos = api.getTemplateListInfos();
-        result = ""; // TODO
+        result = ""; // TODO XML?
         break;
       case "getcolordefaults": //$NON-NLS-1$
         final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
-        result = ""; // TODO
+        result = ""; // TODO XML?
         break;
       case "getsubscriptionstate": //$NON-NLS-1$
         final SubscriptionState subStat = api.getSubscriptionState();
-        result = "";
+        result = subStat.subscriptionCodeValue() + ", " + subStat.ainValue();
         break;
-      case "getdeviceinfo": //$NON-NLS-1$
-        result = api.getDeviceInfos(AIN.of(conf.getAin())).toString();
+      case "gettriggerlistinfos": //$NON-NLS-1$
+        final List<Trigger> triggers = api.getTriggerListInfos();
+        final StringBuilder buffer = new StringBuilder();
+        for (final Trigger trigger : triggers)
+         {
+          buffer.append(trigger.ainValue()).append(", ").append(trigger.isActive()).append(", ").append(trigger.stringValue()).append("\n");
+         }
+        result = buffer.toString();
+        break;
+      case "getdeviceinfos": //$NON-NLS-1$
+        result = api.getDeviceInfos(AIN.of(conf.getAin())).toString(); // TODO XML?
         break;
 
       default:

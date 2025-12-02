@@ -6,6 +6,7 @@ package de.powerstat.camel.component.fbaha;
 
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -21,19 +22,24 @@ import org.apache.camel.Processor;
 import org.apache.camel.support.DefaultEndpoint;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.ScheduledPollConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.javatuples.Pair;
 import org.javatuples.Quintet;
 import org.xml.sax.SAXException;
 
 import de.powerstat.fb.mini.AHASessionMini;
 import de.powerstat.fb.mini.AIN;
+import de.powerstat.fb.mini.ApplyMask;
 import de.powerstat.fb.mini.Energy;
+import de.powerstat.fb.mini.Functions;
 import de.powerstat.fb.mini.Hs;
+import de.powerstat.fb.mini.Metadata;
 import de.powerstat.fb.mini.Power;
 import de.powerstat.fb.mini.SubscriptionState;
 import de.powerstat.fb.mini.TemperatureCelsius;
 import de.powerstat.fb.mini.TemperatureKelvin;
 import de.powerstat.fb.mini.Template;
+import de.powerstat.fb.mini.Trigger;
 import de.powerstat.fb.mini.UnixTimestamp;
 import de.powerstat.fb.mini.Voltage;
 import de.powerstat.validation.values.Percent;
@@ -98,7 +104,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
    * @param result Result from actual call.
    * @return Result or null if conf.onlyOnChange is true, otherwise always result
    */
-  private String cacheHandler(final String switchcmdAin, final String result)
+  private @Nullable String cacheHandler(final String switchcmdAin, final @Nullable String result)
    {
     if (conf.isOnlyOnChange() && (result != null))
      {
@@ -116,12 +122,12 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   /**
    * Execute switch command.
    *
-   * @param switchcmd Swith command
-   * @return Result of switch command
+   * @param switchcmd Switch command
+   * @return Result of switch command or null
    * @throws TransformerFactoryConfigurationError Transformer factory configuration error
    */
   @SuppressFBWarnings({"CC_CYCLOMATIC_COMPLEXITY", "FII_USE_METHOD_REFERENCE"})
-  private String executeSwitchCmd(final String switchcmd) throws TransformerFactoryConfigurationError
+  private @Nullable String executeSwitchCmd(final String switchcmd) throws TransformerFactoryConfigurationError
    {
     var result = ""; //$NON-NLS-1$
     try
@@ -148,7 +154,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
           result = api.getSwitchName(AIN.of(conf.getAin()));
           break;
         case "getdevicelistinfos": //$NON-NLS-1$
-          result = api.getDeviceListInfos().toString();
+          result = api.getDeviceListInfos().toString(); // TODO
           break;
         case "gettemperature": //$NON-NLS-1$
           result = String.valueOf(api.getTemperature(AIN.of(conf.getAin())).getTemperatureCelsius());
@@ -163,23 +169,126 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
           result = String.valueOf(api.getHkrAbsenk(AIN.of(conf.getAin())).getTemperatureCelsius());
           break;
         case "getbasicdevicestats": //$NON-NLS-1$
+         {
+          final StringBuilder buffer = new StringBuilder();
           final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
-          result = ""; // TODO List?
+          final SortedMap<UnixTimestamp, TemperatureCelsius> tempCel = devStats.getValue0();
+          if (!tempCel.isEmpty())
+           {
+            buffer.append("temperature");
+            for (final Map.Entry<UnixTimestamp, TemperatureCelsius> entry : tempCel.entrySet())
+             {
+              buffer.append(", ").append(entry.getKey().longValue()).append(':').append(entry.getValue().getTemperatureCelsius());
+             }
+            buffer.append("\n");
+           }
+          final SortedMap<UnixTimestamp, Percent> humidity = devStats.getValue1();
+          if (!humidity.isEmpty())
+           {
+            buffer.append("humidity");
+            for (final Map.Entry<UnixTimestamp, Percent> entry : humidity.entrySet())
+             {
+              buffer.append(", ").append(entry.getKey().longValue()).append(':').append(entry.getValue().intValue());
+             }
+            buffer.append("\n");
+           }
+          final SortedMap<UnixTimestamp, Voltage> voltage = devStats.getValue2();
+          if (!voltage.isEmpty())
+           {
+            buffer.append("voltage");
+            for (final Map.Entry<UnixTimestamp, Voltage> entry : voltage.entrySet())
+             {
+              buffer.append(", ").append(entry.getKey().longValue()).append(':').append(entry.getValue().longValue());
+             }
+            buffer.append("\n");
+           }
+          final SortedMap<UnixTimestamp, Power> power = devStats.getValue3();
+          if (!power.isEmpty())
+           {
+            buffer.append("power");
+            for (final Map.Entry<UnixTimestamp, Power> entry : power.entrySet())
+             {
+              buffer.append(", ").append(entry.getKey().longValue()).append(':').append(entry.getValue().longValue());
+             }
+            buffer.append("\n");
+           }
+          final SortedMap<UnixTimestamp, Energy> energy = devStats.getValue4();
+          if (!energy.isEmpty())
+           {
+            buffer.append("energy");
+            for (final Map.Entry<UnixTimestamp, Energy> entry : energy.entrySet())
+             {
+              buffer.append(", ").append(entry.getKey().longValue()).append(':').append(entry.getValue().longValue());
+             }
+            buffer.append("\n");
+           }
+          result = buffer.toString();
           break;
+         }
         case "gettemplatelistinfos": //$NON-NLS-1$
+         {
+          final StringBuilder buffer = new StringBuilder();
           final List<Template> templInfos = api.getTemplateListInfos();
-          result = ""; // TODO List?
+          for (final Template templ : templInfos)
+           {
+            final AIN ain = templ.getIdentifier();
+            final long id = templ.getId();
+            final boolean autocreate = templ.getAutocreate();
+            final String name = templ.getName();
+            final Metadata metadata = templ.getMetadata();
+            buffer.append(ain).append(", ").append(id).append(", ").append(autocreate).append(", ").append(name).append(", ").append(metadata.stringValue());
+            final EnumSet<Functions> functions = templ.getFunctionbitmask();
+            buffer.append(", ").append(functions.toString()); // TODO
+            final EnumSet<ApplyMask> applymask = templ.getApplymask();
+            buffer.append(", ").append(applymask.toString()); // TODO
+            // TODO
+            final List<AIN> devices = templ.getDevices();
+            final List<AIN> subtemplates = templ.getSubtemplates();
+            final List<AIN> triggers = templ.getTriggers();
+           }
+          result = buffer.toString();
           break;
+         }
         case "getcolordefaults": //$NON-NLS-1$
+         {
+          final StringBuilder buffer = new StringBuilder();
           final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
-          result = ""; // TODO List?
+          final List<Hs> hss = colorDefaults.getValue0();
+          final List<TemperatureKelvin> kelvins = colorDefaults.getValue1();
+          if (!hss.isEmpty())
+           {
+            for (final Hs hs : hss)
+             {
+              buffer.append("hs, ").append(hs.stringValue()).append("\n");
+             }
+           }
+          if (!kelvins.isEmpty())
+           {
+            buffer.append("temperaturedefaults");
+            for (final TemperatureKelvin kelvin : kelvins)
+             {
+              buffer.append(", ").append(kelvin.intValue());
+             }
+            buffer.append("\n");
+           }
+          result = buffer.toString();
           break;
+         }
         case "getsubscriptionstate": //$NON-NLS-1$
           final SubscriptionState subStat = api.getSubscriptionState();
-          result = ""; // TODO code:latestain ?
+          result = subStat.subscriptionCodeValue() + ", " + subStat.ainValue();
           break;
-        case "getdeviceinfo": //$NON-NLS-1$
-          result = api.getDeviceInfos(AIN.of(conf.getAin())).toString();
+        case "gettriggerlistinfos": //$NON-NLS-1$
+          final List<Trigger> triggers = api.getTriggerListInfos();
+          final StringBuilder buffer = new StringBuilder();
+          for (final Trigger trigger : triggers)
+           {
+            buffer.append(trigger.ainValue()).append(", ").append(trigger.isActive()).append(", ").append(trigger.stringValue()).append("\n");
+           }
+          result = buffer.toString();
+          break;
+        case "getdeviceinfos": //$NON-NLS-1$
+          result = api.getDeviceInfos(AIN.of(conf.getAin())).toString(); // TODO XML?
           break;
         default:
           result = null;
@@ -196,11 +305,11 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
   /**
    * Handle switch cmd.
    *
-   * @return Exchange with result.
+   * @return Exchange with result or null.
    * @throws TransformerFactoryConfigurationError Transformer factory configuration error
    * @throws IllegalArgumentException Illegal or missing argument
    */
-  private Exchange handleSwitchCmd() throws TransformerFactoryConfigurationError
+  private @Nullable Exchange handleSwitchCmd() throws TransformerFactoryConfigurationError
    {
     final String switchcmd = conf.getSwitchcmd();
     if (!conf.parameterCheck())

@@ -509,7 +509,7 @@ final class FBAHAConfigurationTest
     test.setTarget(""); //$NON-NLS-1$
     test.setTemperature(0);
     test.setUsername(""); //$NON-NLS-1$
-    assertEquals("FBAHAConfiguration[hostname=, port=0, username=, password=XXX, switchcmd=, ain=, temperature=0, onoff=0, level=0, hue=0, saturation=0, duration=0, endtimestamp=0, target=, name=, onlyonchange=false]", test.toString(), "toString not as expected"); //$NON-NLS-1$
+    assertEquals("FBAHAConfiguration[hostname=, port=0, username=, password=XXX, switchcmd=, ain=, temperature=0, onoff=0, level=0, hue=0, saturation=0, duration=0, endtimestamp=0, target=, name=, active=false, colorpreset=false, icon=0, percent=0, type=null, onlyonchange=false]", test.toString(), "toString not as expected"); //$NON-NLS-1$
    }
 
  }
