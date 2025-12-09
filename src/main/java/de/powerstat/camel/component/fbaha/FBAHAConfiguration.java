@@ -15,11 +15,6 @@ import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 
 import de.powerstat.fb.mini.AHASessionMini;
-import de.powerstat.fb.mini.AIN;
-import de.powerstat.fb.mini.DurationMS100;
-import de.powerstat.fb.mini.Hue;
-import de.powerstat.fb.mini.Saturation;
-import de.powerstat.fb.mini.ScenarioType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 

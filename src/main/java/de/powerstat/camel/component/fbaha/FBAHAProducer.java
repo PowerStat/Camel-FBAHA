@@ -18,8 +18,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.support.DefaultProducer;
-import org.javatuples.Pair;
-import org.javatuples.Quintet;
 import org.xml.sax.SAXException;
 
 import de.powerstat.fb.mini.AHASessionMini;
@@ -42,6 +40,8 @@ import de.powerstat.fb.mini.Template;
 import de.powerstat.fb.mini.Trigger;
 import de.powerstat.fb.mini.UnixTimestamp;
 import de.powerstat.fb.mini.Voltage;
+import de.powerstat.validation.containers.NTuple2nc;
+import de.powerstat.validation.containers.NTuple5nc;
 import de.powerstat.validation.values.Percent;
 import de.powerstat.validation.values.Seconds;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -154,7 +154,6 @@ public class FBAHAProducer extends DefaultProducer
         // TODO AINs
         // api.addColorLevelTemplate(conf.getName(), Percent.of(conf.getPercent()), Hue.of(conf.getHue()), Saturation.of(conf.getSaturation()), TemperatureKelvin.of(conf.getTemperature()), conf.getColorPreset(), null); // TODO
         break;
-
       case "getswitchlist": //$NON-NLS-1$
         final List<AIN> switches = api.getSwitchList();
         result = switches.stream().map(AIN::stringValue).collect(Collectors.joining(", ")); //$NON-NLS-1$
@@ -190,7 +189,7 @@ public class FBAHAProducer extends DefaultProducer
         result = String.valueOf(api.getHkrAbsenk(AIN.of(conf.getAin())).getTemperatureCelsius());
         break;
       case "getbasicdevicestats": //$NON-NLS-1$
-        final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
+        final NTuple5nc<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
         result = ""; // TODO XML?
         break;
       case "gettemplatelistinfos": //$NON-NLS-1$
@@ -198,7 +197,7 @@ public class FBAHAProducer extends DefaultProducer
         result = ""; // TODO XML?
         break;
       case "getcolordefaults": //$NON-NLS-1$
-        final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
+        final NTuple2nc<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
         result = ""; // TODO XML?
         break;
       case "getsubscriptionstate": //$NON-NLS-1$

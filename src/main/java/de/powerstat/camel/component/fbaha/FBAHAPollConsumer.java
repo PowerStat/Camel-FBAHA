@@ -23,8 +23,6 @@ import org.apache.camel.support.DefaultEndpoint;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.ScheduledPollConsumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.javatuples.Pair;
-import org.javatuples.Quintet;
 import org.xml.sax.SAXException;
 
 import de.powerstat.fb.mini.AHASessionMini;
@@ -42,6 +40,8 @@ import de.powerstat.fb.mini.Template;
 import de.powerstat.fb.mini.Trigger;
 import de.powerstat.fb.mini.UnixTimestamp;
 import de.powerstat.fb.mini.Voltage;
+import de.powerstat.validation.containers.NTuple2nc;
+import de.powerstat.validation.containers.NTuple5nc;
 import de.powerstat.validation.values.Percent;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -171,8 +171,8 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
         case "getbasicdevicestats": //$NON-NLS-1$
          {
           final StringBuilder buffer = new StringBuilder();
-          final Quintet<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
-          final SortedMap<UnixTimestamp, TemperatureCelsius> tempCel = devStats.getValue0();
+          final NTuple5nc<SortedMap<UnixTimestamp, TemperatureCelsius>, SortedMap<UnixTimestamp, Percent>, SortedMap<UnixTimestamp, Voltage>, SortedMap<UnixTimestamp, Power>, SortedMap<UnixTimestamp, Energy>> devStats = api.getBasicDeviceStats(AIN.of(conf.getAin()));
+          final SortedMap<UnixTimestamp, TemperatureCelsius> tempCel = devStats.t1Value();
           if (!tempCel.isEmpty())
            {
             buffer.append("temperature");
@@ -182,7 +182,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
              }
             buffer.append("\n");
            }
-          final SortedMap<UnixTimestamp, Percent> humidity = devStats.getValue1();
+          final SortedMap<UnixTimestamp, Percent> humidity = devStats.t2Value();
           if (!humidity.isEmpty())
            {
             buffer.append("humidity");
@@ -192,7 +192,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
              }
             buffer.append("\n");
            }
-          final SortedMap<UnixTimestamp, Voltage> voltage = devStats.getValue2();
+          final SortedMap<UnixTimestamp, Voltage> voltage = devStats.t3Value();
           if (!voltage.isEmpty())
            {
             buffer.append("voltage");
@@ -202,7 +202,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
              }
             buffer.append("\n");
            }
-          final SortedMap<UnixTimestamp, Power> power = devStats.getValue3();
+          final SortedMap<UnixTimestamp, Power> power = devStats.t4Value();
           if (!power.isEmpty())
            {
             buffer.append("power");
@@ -212,7 +212,7 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
              }
             buffer.append("\n");
            }
-          final SortedMap<UnixTimestamp, Energy> energy = devStats.getValue4();
+          final SortedMap<UnixTimestamp, Energy> energy = devStats.t5Value();
           if (!energy.isEmpty())
            {
             buffer.append("energy");
@@ -252,9 +252,9 @@ public class FBAHAPollConsumer extends ScheduledPollConsumer
         case "getcolordefaults": //$NON-NLS-1$
          {
           final StringBuilder buffer = new StringBuilder();
-          final Pair<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
-          final List<Hs> hss = colorDefaults.getValue0();
-          final List<TemperatureKelvin> kelvins = colorDefaults.getValue1();
+          final NTuple2nc<List<Hs>, List<TemperatureKelvin>> colorDefaults = api.getColorDefaults();
+          final List<Hs> hss = colorDefaults.t1Value();
+          final List<TemperatureKelvin> kelvins = colorDefaults.t2Value();
           if (!hss.isEmpty())
            {
             for (final Hs hs : hss)
